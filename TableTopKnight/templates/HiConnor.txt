@@ -1,0 +1,1 @@
+Put your templates in this folder.
