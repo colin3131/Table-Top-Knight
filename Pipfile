@@ -7,6 +7,8 @@ verify_ssl = true
 
 [packages]
 django = "*"
+pylint = "*"
+psycopg2 = "*"
 
 [requires]
-python_version = "3.8"
+python_version = "3.7"
