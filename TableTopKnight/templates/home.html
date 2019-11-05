@@ -1,0 +1,95 @@
+
+<!-- DELETE THIS WHEN IN PRODUCTION MODE -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}Table Top Knights{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="css/global_css.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/a37581ab81.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Jomolhari|Montserrat&display=swap" rel="stylesheet">
+
+</head>
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="home-content">
+<div class="container">
+
+<!-- Heading Row -->
+<div class="row align-items-center my-5 ">
+  <div class="col-lg-7">
+    <img class="img-fluid rounded home-img" src="imgs/homepage-image.jpg" alt="">
+  </div>
+  <!-- /.col-lg-8 -->
+  <div class="col-lg-5">
+    <h1 class="font-weight-light">Table Top Knight</h1>
+    <p>Table Top Knight is an online application meant to make scheduling and organizing game nights easier. If you play games with a group, you're likely all too aware of the difficulties in scheduling and selecting a game to play. Register an account and set up your personal library of games, create an event, invite your friends, vote on a game to play and then choose a date. Join today and become a Knight at the (round) Table Top.</p>
+    <a class="btn btn-danger" href="#">Register Today!</a>
+  </div>
+  <!-- /.col-md-4 -->
+</div>
+<!-- /.row -->
+
+<!-- Call to Action Well -->
+<div class="card text-white text-center home-cta">
+  <div class="card-body">
+    <p class="text-white m-0 "><a class="btn btn-danger" href="#">Join Today!</a>&nbsp; &nbsp; &nbsp; &nbsp; Become a Knight of the (round) Table Top! </p>
+
+
+  </div>
+</div>
+
+<!-- Content Row -->
+<div class="row">
+  <div class="col-md-4 mb-5">
+    <div class="card h-100">
+      <div class="card-body">
+        <h2 class="card-title">Support</h2>
+        <p class="card-text">Stuck? Something not working? Have quesitons? Find a bug? Check in and learn more about the project.</p>
+      </div>
+      <div class="card-footer">
+        <a href="#" class="btn btn-danger btn-sm">Learn More</a>
+      </div>
+    </div>
+  </div>
+  <!-- /.col-md-4 -->
+  <div class="col-md-4 mb-5">
+    <div class="card h-100">
+      <div class="card-body">
+        <h2 class="card-title">Our Team</h2>
+        <p class="card-text">Table Top Knight was developed by Colin Spratt, Jackson Perry, Connor Tshudy, Khiem Vo, Aliyah Flores, and Rob Corbett. Learn more about our team by clicking below.</p>
+      </div>
+      <div class="card-footer">
+        <a href="#" class="btn btn-danger btn-sm">Visit Team</a>
+      </div>
+    </div>
+  </div>
+  <!-- /.col-md-4 -->
+  <div class="col-md-4 mb-5">
+    <div class="card h-100">
+      <div class="card-body">
+        <h2 class="card-title">Our Code</h2>
+        <p class="card-text">Want to take a peak under the hood? Our code will be made available for view using GitHub. Click below to access our repository.</p>
+      </div>
+      <div class="card-footer">
+        <a href="#" class="btn btn-danger btn-sm">View Code</a>
+      </div>
+    </div>
+  </div>
+  <!-- /.col-md-4 -->
+
+</div>
+<!-- /.row -->
+
+</div>
+</div>
+<!-- /.container -->
+
+
+{% endblock %}

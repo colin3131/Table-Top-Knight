@@ -1,0 +1,194 @@
+/* NAVBAR CSS */
+.navbar-brand img{
+    width: 100%;
+    height: auto;
+}
+
+a.navbar-brand{
+    width: 15%;
+}
+
+
+.navbar-custom{
+    background-color: #eee;
+    font-family: 'Jomolhari', serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.nav-item{
+    margin-right: 30px;
+}
+
+.nav-item a{
+    color: #AD1412;
+}
+
+.nav-item a:hover{
+    color: #830d0c;
+}
+
+.container{
+    max-width: 1400px !important;
+}
+
+.no-margin-right{
+    margin-right: 0px;
+}
+
+.seperator{
+    margin: 0px;
+}
+
+.seperator a:hover{
+    color: #AD1412 ;
+}
+/* END NAVBAR */
+
+/* FOOTER CSS */
+footer{
+    background-color: #eee;
+    font-family: 'Jomolhari', serif;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+footer a{
+    color: #ad1412;
+    font-weight: normal;
+}
+
+footer a:hover{
+    color: #830d0c;
+}
+
+footer li{
+    margin-bottom: 10px;
+}
+
+footer p{
+    text-transform: none !important;
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+}
+.footer-header{
+    color: #ad1412 !important;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.footer-description{
+    font-weight: normal !important;
+}
+/* END FOOTER */
+
+/* BOOTSTRAP OVERRIDE CSS */
+.btn-danger{
+    background-color: #AD1412 !important;;
+}
+.btn-danger:hover{
+    background-color: #830d0c !important;
+}
+.jumbotron{
+    background-color: #eee !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+.card{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px !important;
+}
+.card-body {
+        background-color: #2d3142 !important;
+        color: white;
+    }
+/* END BOOTSTRAP OVERRIDE */
+
+/* GENERAL CSS */
+h1, h2, h3, h4, h5, h6{
+    font-family: 'Jomolhari', serif;
+    color: #ad1412;
+}
+
+p{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+}
+
+/* END GENERAL */
+
+/* LOGIN CSS */
+.login-background{
+    background-image: url("../imgs/login-background.jpg");
+    opacity: 0.8;
+    box-shadow: inset 0 0 5px 2px #282a2d; /* mark the inset */
+
+    height: 100% !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login-wrapper{
+    height: 100% !important;
+}
+
+.login-content{
+    margin-top: 100px;
+    margin-bottom: 100px !important;
+}
+/* END LOGIN */
+
+/* SIGNUP CSS */
+.signup-background{
+    background-image: url("../imgs/signup-background.jpg");
+    opacity: 0.8;
+    box-shadow: inset 0 0 5px 2px #282a2d; /* mark the inset */
+
+    height: 100% !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.signup-wrapper{
+    height: 100% !important;
+}
+
+.signup-content{
+    margin-top: 100px;
+    margin-bottom: 100px !important;
+}
+/* END SIGNUP */
+
+/* HOME CSS */
+.home-content{
+    background-color: #fff;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    box-shadow: inset 0 4px 8px  rgba(0, 0, 0, 0.2), inset 0 6px 20px rgba(0, 0, 0, 0.19);
+
+
+}
+
+.home-content img{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.home-cta{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #2d3142 !important;
+}
+
+.home-img{
+    object-fit: cover;
+    width: 600px;
+    height: 100px;
+    margin-left: 100px;
+}
+
+/* END HOME */

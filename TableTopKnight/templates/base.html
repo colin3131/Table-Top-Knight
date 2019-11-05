@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}Table Top Knights{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="css/global_css.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/a37581ab81.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Jomolhari|Montserrat&display=swap" rel="stylesheet">
+
+</head>
+
+  <body>
+    <header>
+     {% if user.is_authenticated %}
+     <h1> --- Authenticated Nav Bar Here ---</h1>
+     <br/><br/>
+      <nav class="navbar navbar-expand-lg navbar-custom static-top">
+        <div class="container">
+          <a class="navbar-brand" href="#">
+                <img src="imgs/TTK_Logo.png" alt="">
+              </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+
+              <li class="nav-item">
+                <a class="nav-link" href="#">Home</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#">Our Team</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#">Support</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contact Us</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#"> | </a>
+              </li>
+
+              <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-bell"></i>
+
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        You have 1 pending invite!
+                      </div>
+                    </li>
+
+
+              <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-user"></i>
+                        {user.getName()}
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Dashboard</a>
+                        <a class="dropdown-item" href="#">My Friends</a>
+                        <a class="dropdown-item" href="#">My Library</a>
+                        <a class="dropdown-item" href="#">My Events</a>
+
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Log Out</a>
+                      </div>
+                    </li>
+
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+
+
+      {% else %}
+        <h1> --- Unauthenticated Nav Bar Here ---</h1>
+        <br/><br/>
+        <nav class="navbar navbar-expand-lg navbar-custom static-top">
+          <div class="container">
+            <a class="navbar-brand" href="#">
+                  <img src="imgs/TTK_Logo.png" alt="">
+                </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+              <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Home</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Our Team</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Support</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Contact Us</a>
+                </li>
+
+                <li class="nav-item no-margin-right" >
+                  <a class="nav-link" href="#">Login</a>
+                </li>
+                <li class="nav-item seperator">
+                  <a class="nav-link"> / </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Create Account</a>
+                </li>
+
+              </ul>
+            </div>
+          </div>
+        </nav>
+        {% endif %}
+    </header>
+
+
+    <main>
+      {% block content %}
+
+      {% endblock %}
+    </main>
+
+
+
+    <footer class="page-footer font-small stylish-color-dark pt-4">
+      <div class="container text-center text-md-left">
+        <div class="row">
+          <div class="col-md-6 mx-auto">
+            <h1 class="footer-header mt-3 mb-4 ">Table Top Knight</h1>
+            <p class="footer-description">Table Top Knight is an online application meant to make scheduling and organizing game nights easier. If you play games with a group, you're likely all too aware of the difficulties in scheduling and selecting a game to play. Register an account and set up your personal library of games, create an event, invite your friends, vote on a game to play and then choose a date. Join today and become a Knight at the (round) Table Top.   </p>
+
+          </div>
+          <hr class="clearfix w-100 d-md-none">
+          <div class="col-md-2 mx-auto">
+            <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+            <ul class="list-unstyled">
+              <li>
+                <a href="#!">Home</a>
+              </li>
+              <li>
+                <a href="#!">Our Team</a>
+              </li>
+              <li>
+                <a href="#!">Support</a>
+              </li>
+              <li>
+                <a href="#!">Contact Us</a>
+              </li>
+            </ul>
+          </div>
+          <hr class="clearfix w-100 d-md-none">
+ {% if user.is_authenticated %}
+          <div class="col-md-2 mx-auto">
+            <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Your Account</h5>
+            <ul class="list-unstyled">
+              <li>
+                <a href="#!">Dashboard</a>
+              </li>
+              <li>
+                <a href="#!">My Friends</a>
+              </li>
+              <li>
+                <a href="#!">My Library</a>
+              </li>
+              <li>
+                <a href="#!">My Events</a>
+              </li>
+            </ul>
+          </div>
+{% else %}
+<div class="col-md-2 mx-auto">
+</div>
+{% endif %}
+          <hr class="clearfix w-100 d-md-none">
+        </div>
+      </div>
+      <hr>
+      <ul class="list-unstyled list-inline text-center py-2">
+{% if user.is_authenticated %}
+        <li class="list-inline-item">
+          <a href="#!" class="btn btn-danger btn-rounded">View Your Dashboard</a>
+        </li>
+        <li class="list-inline-item">
+          <span></span>
+        </li>
+{% else %}
+<li class="list-inline-item">
+  <h5 class="mb-1">Register for free</h5>
+</li>
+<li class="list-inline-item">
+  <a href="#!" class="btn btn-danger btn-rounded">Sign up!</a>
+</li>
+{% endif %}
+      </ul>
+      <hr>
+
+      <div class="footer-copyright text-center py-3">
+        <p>Copyright © {% now "Y" %} Table Top Knights. All Rights Reserved.</p>
+        <a href="#"> Learn More About Our Team</a>
+      </div>
+    </footer>
+{% endblock %}
+  </body>
+</html>
