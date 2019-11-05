@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import JSONField
 from django.contrib.postgres.fields import ArrayField
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 # Create your models here.
@@ -14,7 +16,6 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
         primary_key=True,
     )
-    email = models.EmailField(max_length=100)
     friends = models.ManyToManyField('User')
     library = models.ManyToManyField("Game")
 
@@ -77,6 +78,12 @@ class Profile(models.Model):
         Notification.objects.create_notification(
             self.user.id, message, link
         )
+@receiver(post_save, sender=User)
+def update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    instance.profile.save()
+
 
 # Game Table
 class GameManager(models.Manager):
@@ -175,7 +182,7 @@ class Event(models.Model):
     def sendInvites(self):
         for pp in self.pendingPlayers.all():
             pp.profile.addNotification(
-                "You've been invited to join an event hosted by "+self.host.profile + ".",
+                "You've been invited to join an event hosted by " + self.host.profile + ".",
                 "insert_url_here"
             )
 
