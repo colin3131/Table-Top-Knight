@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
-from TableTopKnight.events.forms import SignUpForm
-
+from events.forms import SignUpForm
 
 # Create your views here.
 
