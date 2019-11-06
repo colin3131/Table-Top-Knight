@@ -78,17 +78,20 @@ class Profile(models.Model):
         Notification.objects.create_notification(
             self.user.id, message, link
         )
+
 @receiver(post_save, sender=User)
-def update_user_profile(sender, instance, created, **kwargs):
+def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
-    instance.profile.save()
 
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
 
 # Game Table
 class GameManager(models.Manager):
     def getGames(self, gameIDs):
-        games = self.filter(gameID__in=gameIDs).all()
+        games = self.filter(gameID__in=self.id).all()
         return games
     def create_game(self, gameName, playerMin, playerMax, genre, thmb, desc):
         new_game = self.create(
@@ -102,11 +105,10 @@ class GameManager(models.Manager):
         new_game.save()
         return new_game
     def delete_game(self, gameID):
-        self.get(gameID=gameID).delete()
+        self.get(gameID=self.id).delete()
 
 
 class Game(models.Model):
-    gameID = models.AutoField(primary_key=True, default=1)
     gameName = models.CharField(max_length=50, default="")
     playerMin = models.IntegerField()
     playerMax = models.IntegerField()
@@ -138,11 +140,10 @@ class EventManager(models.Manager):
         return new_event
     
     def remove_event(self, eventID):
-        self.get(eventID=eventID).delete()
+        self.get(eventID=self.id).delete()
 
 
 class Event(models.Model):
-    eventID = models.AutoField(primary_key=True, auto_created=True, serialize=False, default=1)
     host = models.ForeignKey('profile', on_delete=models.CASCADE)
     attendees = models.ManyToManyField("profile", related_name="event_attending")
     pendingPlayers = models.ManyToManyField("profile", related_name="event_invited")
@@ -196,7 +197,6 @@ class NotificationManager(models.Manager):
         msg.delete()
 
 class Notification(models.Model):
-    msgID = models.AutoField(primary_key=True, auto_created=True, serialize=False)
     recipient = models.ForeignKey("Profile", on_delete=models.CASCADE, related_name="notifications")
     message = models.CharField(max_length=200, default="")
     link = models.CharField(max_length=100, default="")

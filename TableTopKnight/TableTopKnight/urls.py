@@ -20,7 +20,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('signup/', include('events.urls')),
+    path('', include('events.urls')),
 ]
 
 # Just in case we want to check to see if all of our thumbnails exist
