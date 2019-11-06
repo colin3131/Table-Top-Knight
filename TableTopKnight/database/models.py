@@ -16,7 +16,7 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
         primary_key=True,
     )
-    friends = models.ManyToManyField('User')
+    friends = models.ManyToManyField('self')
     library = models.ManyToManyField("Game")
 
     def __str__(self):
@@ -106,13 +106,13 @@ class GameManager(models.Manager):
 
 
 class Game(models.Model):
-    gameID = models.AutoField(primary_key=True)
-    gameName = models.CharField(max_length=50)
+    gameID = models.AutoField(primary_key=True, default=1)
+    gameName = models.CharField(max_length=50, default="")
     playerMin = models.IntegerField()
     playerMax = models.IntegerField()
-    genre = models.CharField(max_length=50)
-    thumbnail_url = models.CharField(max_length=100)
-    description = models.CharField(max_length=200)
+    genre = models.CharField(max_length=50, default="")
+    thumbnail_url = models.CharField(max_length=100, default="")
+    description = models.CharField(max_length=200, default="")
 
     def getGame(self):
         game = {
@@ -142,12 +142,12 @@ class EventManager(models.Manager):
 
 
 class Event(models.Model):
-    eventID = models.AutoField(primary_key=True)
-    host = models.ForeignKey('User', on_delete=models.CASCADE)
-    attendees = models.ManyToManyField("User", related_name="event_attending")
-    pendingPlayers = models.ManyToManyField("User", related_name="event_invited")
+    eventID = models.AutoField(primary_key=True, auto_created=True, serialize=False, default=1)
+    host = models.ForeignKey('profile', on_delete=models.CASCADE)
+    attendees = models.ManyToManyField("profile", related_name="event_attending")
+    pendingPlayers = models.ManyToManyField("profile", related_name="event_invited")
     eventDateTime = models.DateTimeField(auto_now=False, auto_now_add=False)
-    location = models.CharField(max_length=200)
+    location = models.CharField(max_length=200, default="The Basement")
     eventGames = models.ManyToManyField("Game")
     objects = EventManager()
 
@@ -196,8 +196,8 @@ class NotificationManager(models.Manager):
         msg.delete()
 
 class Notification(models.Model):
-    msgID = models.AutoField(primary_key=True)
+    msgID = models.AutoField(primary_key=True, auto_created=True, serialize=False)
     recipient = models.ForeignKey("Profile", on_delete=models.CASCADE, related_name="notifications")
-    message = models.CharField(max_length=200)
-    link = models.CharField(max_length=100)
+    message = models.CharField(max_length=200, default="")
+    link = models.CharField(max_length=100, default="")
     objects = NotificationManager()
