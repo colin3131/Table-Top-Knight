@@ -4,10 +4,17 @@ from django.contrib.auth import login, authenticate
 from events.forms import SignUpForm
 
 # Create your views here.
-
-@login_required
 def home(request):
     return render(request, 'home.html')
+
+def ourteam(request):
+    return render(request, 'ourteam.html')
+
+def contactus(request):
+    return render(request, 'contactus.html')
+
+def login(request):
+    return render(request, 'login.html')
 
 def signup(request):
     if request.method == 'POST':
@@ -22,3 +29,38 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
+
+# TODO
+@login_required
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
+# TODO
+@login_required
+def library(request):
+    return render(request, 'library.html')
+
+# TODO
+@login_required
+def game(request, gameID=1):
+    return render(request, 'game.html')
+
+# TODO
+@login_required
+def myevent(request, eventID):
+    return render(request, 'event.html')
+
+# TODO
+@login_required
+def myevents(request):
+    return render(request, 'myevents.html')
+
+# TODO
+@login_required
+def friends(request):
+    return render(request, 'myfriends.html')
+
+# TODO
+@login_required
+def friend(request):
+    return render(request, 'friend.html')
