@@ -10,6 +10,8 @@ from django.dispatch import receiver
 # Create your models here.
 
 # User Table
+# HOW TO ACCESS PROFILE: user.profile
+# HOW TO ACCESS PROFILE ATTRIBS: user.profile.library, user.profile.friends
 class Profile(models.Model):
     user = models.OneToOneField(
         User,
@@ -22,6 +24,7 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+    # Verifies the login of an individual user
     def verifyLogin(self, _username, _password):
         _user = authenticate(_username, _password)
         if _user is not None:
@@ -29,6 +32,7 @@ class Profile(models.Model):
         else:
             return False
 
+    # Changes the password of an individual user supplied old and new pass
     def changePassword(self, oldPass, newPass):
         _user = authenticate(self.user.username, oldPass)
         if _user is not None:
@@ -37,9 +41,13 @@ class Profile(models.Model):
         else:
             return False
     
+    # Returns the Profile of all friends
+    # user.profile.getFriends()
     def getFriends(self):
         return self.friends.all()
 
+    # Adds a friend to the profile
+    # user.profile.addFriend(Profile instance)
     def addFriend(self, friend):
         if isinstance(friend, Profile):
             self.friends.add(friend)
@@ -47,6 +55,8 @@ class Profile(models.Model):
         else:
             return False
 
+    # Removes a friend from the profile
+    # user.profile.removeFriend(Profile instance)
     def removeFriend(self, friend):
         if isinstance(friend, Profile):
             self.friends.remove(friend)
@@ -54,9 +64,13 @@ class Profile(models.Model):
         else:
             return False
     
+    # Returns the library of the user
+    # user.profile.getLibrary()
     def getLibrary(self):
         return library.all()
 
+    # Adds a game to a user's library
+    # user.profile.addGame(Game instance)
     def addGame(self, game):
         if isinstance(game, Game):
             self.library.add(game)
@@ -64,6 +78,8 @@ class Profile(models.Model):
         else:
             return False
     
+    # Removes a game from the user's library
+    # user.profile.removeGame(Game instance)
     def removeGame(self, game):
         if isinstance(game, Game):
             self.library.remove(game)
@@ -71,13 +87,26 @@ class Profile(models.Model):
         else:
             return False
 
+    # Returns all of the notifications belonging to a user
+    # user.profile.getNotifications()
     def getNotifications(self):
         return self.notifications.all()
 
+    # Adds a notification to a user
+    # user.profile.addNotification(string:message, string:link)
     def addNotification(self, message, link):
         Notification.objects.create_notification(
             self.user.id, message, link
         )
+
+    # Removes a notification from a user
+    # user.profile.removeNotification(Notification instance)
+    def removeNotification(self, notification):
+        if isinstance(notification, Notification):
+            self.notifications.remove(notification)
+            return True
+        else:
+            return False
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -151,6 +180,19 @@ class Event(models.Model):
     location = models.CharField(max_length=200, default="The Basement")
     eventGames = models.ManyToManyField("Game")
     objects = EventManager()
+    PRE_VOTING = 'PV'
+    VOTING = 'VO'
+    AFTER_VOTING = 'AV'
+    EVENT_STATES = [
+        (PRE_VOTING, 'Event Setup Phase'),
+        (VOTING, 'Voting Phase'),
+        (AFTER_VOTING, 'Post-Voting Phase'),
+    ]
+    event_state = models.CharField(
+        max_length=2,
+        choices=EVENT_STATES,
+        default=PRE_VOTING
+    )
 
     def addPending(self, user):
         if isinstance(user, User):
@@ -187,6 +229,30 @@ class Event(models.Model):
                 "insert_url_here"
             )
 
+    # Check if the event currently allows voting
+    # event.canVote() returns true/false
+    def canVote(self):
+        return self.event_state in self.VOTING
+
+    # Check if the event currently allows inviting new players
+    # event.canInvite() returns true/false
+    def canInvite(self):
+        return self.event_state in self.PRE_VOTING
+
+    # Check if the event is ready to play the game
+    # event.canPlay() returns true/false
+    def canPlay(self):
+        return self.event_state in self.AFTER_VOTING
+
+    # Set the event to the Voting phase
+    # event.startVoting()
+    def startVoting(self):
+        self.event_state = self.VOTING
+
+    # End the event's voting phase
+    # event.endVoting()
+    def endVoting(self):
+        self.event_state = self.AFTER_VOTING
 
 class NotificationManager(models.Manager):
     def create_notification(self, userID, message, link):
