@@ -269,8 +269,10 @@ class Event(models.Model):
     # @Jackson: Put getFilteredGames() here
     # Take all attending players, combine all their libraries, and return the .all() of them
     # https://docs.djangoproject.com/en/2.2/ref/models/querysets/
+    # for profile in self.attendees.all():
+    #    add profile.library.all() to list, except those already in it
 
-    
+
 
 class NotificationManager(models.Manager):
     def create_notification(self, userID, message, link):
