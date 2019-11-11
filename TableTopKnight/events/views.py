@@ -20,7 +20,7 @@ def contactus(request):
 
 # TODO
 # Other Data Needed: 
-def login(request):
+def log_in(request):
     return render(request, 'login.html')
 
 # SIGN UP PAGE
