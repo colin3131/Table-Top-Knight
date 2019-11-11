@@ -67,7 +67,7 @@ class Profile(models.Model):
     # Returns the library of the user
     # user.profile.getLibrary()
     def getLibrary(self):
-        return library.all()
+        return self.library.all()
 
     # Adds a game to a user's library
     # user.profile.addGame(Game instance)
@@ -107,6 +107,18 @@ class Profile(models.Model):
             return True
         else:
             return False
+    
+    # Returns all events a user is hosting
+    # user.profile.getEventsHosting()
+    def getEventsHosting(self):
+        return self.events_hosting.all()
+
+    # Returns all events a user is attending
+    # user.profile.getEventsAttending()
+    def getEventsAttending(self):
+        return self.events_attending.all()
+
+    
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -173,9 +185,9 @@ class EventManager(models.Manager):
 
 
 class Event(models.Model):
-    host = models.ForeignKey('profile', on_delete=models.CASCADE)
-    attendees = models.ManyToManyField("profile", related_name="event_attending")
-    pendingPlayers = models.ManyToManyField("profile", related_name="event_invited")
+    host = models.ForeignKey('profile', on_delete=models.CASCADE, related_name="events_hosting")
+    attendees = models.ManyToManyField("profile", related_name="events_attending")
+    pendingPlayers = models.ManyToManyField("profile", related_name="events_invited")
     eventDateTime = models.DateTimeField(auto_now=False, auto_now_add=False)
     location = models.CharField(max_length=200, default="The Basement")
     eventGames = models.ManyToManyField("Game")
@@ -253,6 +265,12 @@ class Event(models.Model):
     # event.endVoting()
     def endVoting(self):
         self.event_state = self.AFTER_VOTING
+
+    # @Jackson: Put getFilteredGames() here
+    # Take all attending players, combine all their libraries, and return the .all() of them
+    # https://docs.djangoproject.com/en/2.2/ref/models/querysets/
+
+    
 
 class NotificationManager(models.Manager):
     def create_notification(self, userID, message, link):
