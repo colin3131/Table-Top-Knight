@@ -6,6 +6,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.validators import MaxValueValidator, MinValueValidator
+from collections import Counter
 
 
 # Create your models here.
@@ -272,16 +273,49 @@ class Event(models.Model):
     def getVotes(self):
         return self.votes.all()
 
-    # @Jackson: Put getFilteredGames() here
-    # Take all attending players, combine all their libraries, and return the .all() of them
-    # https://docs.djangoproject.com/en/2.2/ref/models/querysets/
-    # for profile in self.attendees.all():
-    #    add profile.library.all() to list, except those already in it
 
-    # @Jackson: put getRankedGames() here
+    # Takes all attending players and returns a list representing the union of their libraries
+    def getFilteredGames(self):
+        groupLibrary = []
+        playerNum = len(self.attendees.all())+1
+        #adds to list all games that someone owns and matches numberOfPlayers filter (skipping duplicates)
+        for profile in self.attendees.all():
+            for game in profile.getLibrary():
+                if(game not in groupLibrary):
+                    gInfo = game.getGame()
+                    if(gInfo[playerMin]<=playerNum and playerNum<=gInfo[playerMax]): #filter for number of players
+                        groupLibrary.append(game)
+        #do the same for the host
+        for game in self.host.getLibrary():
+            if(game not in groupLibrary):
+                gInfo = game.getGame()
+                if(gInfo[playerMin]<=playerNum and playerNum<=gInfo[playerMax]): #filter for number of players
+                    groupLibrary.append(game)
+        return groupLibrary #returns a list of game objects
+
+
     # Grab all of the votes using self.getVotes(), use the list of votes and their
     # getGame() and getRank() methods to find the top 3, and return the top 3 games
-    # Check the Votes model at the bottom of the file to see what it does
+    def getRankedGames(self):
+        rankings = {}
+        for vote in self.getVotes():
+            if vote.getGame() not in rankings:
+                rankings[vote.getGame()] = 0
+            if(vote.getRank()==1):
+                rankings[vote.getGame()] += 3
+            elif(vote.getRank()==2):
+                rankings[vote.getGame()] += 2
+            elif(vote.getRank()==3):
+                rankings[vote.getGame()] += 1
+        #produces a list of tuples (game, rankScore) of the top 3 games
+        gameRanks = Counter(rankings).most_common(3) 
+        #converts gameranks to a list of top 3 games
+        for i in range(len(gameRanks)):
+            gameRanks[i] = gameRanks[i][0]
+        return gameRanks #returns a list of game objects
+
+
+
 
 class NotificationManager(models.Manager):
     def create_notification(self, profile, message, link):
