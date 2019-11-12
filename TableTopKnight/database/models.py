@@ -5,6 +5,7 @@ from django.contrib.postgres.fields import JSONField
 from django.contrib.postgres.fields import ArrayField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 # Create your models here.
@@ -266,17 +267,25 @@ class Event(models.Model):
     def endVoting(self):
         self.event_state = self.AFTER_VOTING
 
+    # Return the event's votese
+    # event.getVotes() (returns list of votes)
+    def getVotes(self):
+        return self.votes.all()
+
     # @Jackson: Put getFilteredGames() here
     # Take all attending players, combine all their libraries, and return the .all() of them
     # https://docs.djangoproject.com/en/2.2/ref/models/querysets/
     # for profile in self.attendees.all():
     #    add profile.library.all() to list, except those already in it
 
-
+    # @Jackson: put getRankedGames() here
+    # Grab all of the votes using self.getVotes(), use the list of votes and their
+    # getGame() and getRank() methods to find the top 3, and return the top 3 games
+    # Check the Votes model at the bottom of the file to see what it does
 
 class NotificationManager(models.Manager):
-    def create_notification(self, userID, message, link):
-        notif = self.create(recipient_id=userID, message=message, link=link)
+    def create_notification(self, profile, message, link):
+        notif = self.create(recipient=profile, message=message, link=link)
         notif.save()
         return notif
     def delete_notification(self, msg):
@@ -287,3 +296,33 @@ class Notification(models.Model):
     message = models.CharField(max_length=200, default="")
     link = models.CharField(max_length=100, default="")
     objects = NotificationManager()
+
+class VoteManager(models.Manager):
+    def create(self, event, game, rank):
+        vote = self.create(event=event, game=game, rank=rank)
+        vote.save()
+        return vote
+    def delete(self, d_vote):
+        d_vote.delete()
+
+class Vote(models.Model):
+    event = models.ForeignKey(
+        "Event",
+        on_delete=models.CASCADE,
+        related_name="votes"
+    )
+    game = models.ForeignKey(
+        "Game",
+        on_delete=models.CASCADE
+    )
+    rank = models.IntegerField(
+        default=1,
+        validators=[MaxValueValidator(3), MinValueValidator(1)]
+    )
+    objects = VoteManager()
+    
+    def getGame(self):
+        return self.game
+
+    def getRank(self):
+        return self.rank
