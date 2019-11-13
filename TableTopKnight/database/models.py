@@ -349,6 +349,11 @@ class Vote(models.Model):
         "Game",
         on_delete=models.CASCADE
     )
+    profile = models.ForeignKey(
+        "Profile",
+        on_delete=models.CASCADE,
+        related_name="votes"
+    )
     rank = models.IntegerField(
         default=1,
         validators=[MaxValueValidator(3), MinValueValidator(1)]

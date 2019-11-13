@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from .forms import SignUpForm, VoteForm
-from .models import Vote, Event, Game
+from database.models import Vote, Event, Game
 
 # TODO
 # Other Data Needed: 
@@ -44,6 +44,7 @@ def signup(request):
 # Need to create forms for: Creating an event, voting (possibly), and adding to library (possibly)
 
 # VOTING PAGE
+@login_required
 def vote(request, eventID):
     if request.method == 'POST':
         form = VoteForm(request.POST)
@@ -51,17 +52,20 @@ def vote(request, eventID):
             Vote.objects.create(
                 event=Event.objects.get(pk=eventID),
                 game=form.cleaned_data['game1'],
-                rank=form.cleaned_data['rank1']
+                rank=form.cleaned_data['rank1'],
+                profile=request.user.profile
             )
             Vote.objects.create(
                 event=Event.objects.get(pk=eventID),
                 game=form.cleaned_data['game2'],
-                rank=form.cleaned_data['rank2']
+                rank=form.cleaned_data['rank2'],
+                profile=request.user.profile
             )
             Vote.objects.create(
                 event=Event.objects.get(pk=eventID),
                 game=form.cleaned_data['game3'],
-                rank=form.cleaned_data['rank3']
+                rank=form.cleaned_data['rank3'],
+                profile=request.user.profile
             )
             return redirect('myevent', eventID=eventID)
         else:
@@ -85,13 +89,20 @@ def library(request):
 # Other Data Needed: 
 @login_required
 def game(request, gameID=1):
-    return render(request, 'game.html')
+    game = Game.objects.get(pk=gameID)
+    if request.method == 'POST':
+        added = request.user.profile.addGame(game)
+        if added:
+            redirect('library')
+    game_owned = game in request.user.profile.getLibrary()
+    return render(request, 'game.html', {"game": game, "game_owned": game_owned})
 
 # TODO
 # Other Data Needed: 
 @login_required
 def myevent(request, eventID):
-    return render(request, 'event.html')
+    this_event = Event.objects.get(pk=eventID)
+    return render(request, 'event.html', {"event": this_event})
 
 # TODO
 # Other Data Needed: 
