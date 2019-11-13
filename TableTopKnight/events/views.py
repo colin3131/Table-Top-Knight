@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
-from events.forms import SignUpForm
+from .forms import SignUpForm, VoteForm
+from .models import Vote, Event, Game
 
 # TODO
 # Other Data Needed: 
@@ -41,6 +42,32 @@ def signup(request):
 
 # All user data is included by default
 # Need to create forms for: Creating an event, voting (possibly), and adding to library (possibly)
+
+# VOTING PAGE
+def vote(request, eventID):
+    if request.method == 'POST':
+        form = VoteForm(request.POST)
+        if form.is_valid():
+            Vote.objects.create(
+                event=Event.objects.get(pk=eventID),
+                game=form.cleaned_data['game1'],
+                rank=form.cleaned_data['rank1']
+            )
+            Vote.objects.create(
+                event=Event.objects.get(pk=eventID),
+                game=form.cleaned_data['game2'],
+                rank=form.cleaned_data['rank2']
+            )
+            Vote.objects.create(
+                event=Event.objects.get(pk=eventID),
+                game=form.cleaned_data['game3'],
+                rank=form.cleaned_data['rank3']
+            )
+            return redirect('myevent', eventID=eventID)
+        else:
+            game_choices = [(game, game.gameName) for game in Event.objects.get(pk=eventID).getFilteredGames()]
+            form = VoteForm(game_choices=game_choices)
+        return render(request, 'vote.html', {'form':form})
 
 # TODO
 # Other Data Needed: 

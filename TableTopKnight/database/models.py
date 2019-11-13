@@ -283,13 +283,13 @@ class Event(models.Model):
             for game in profile.getLibrary():
                 if(game not in groupLibrary):
                     gInfo = game.getGame()
-                    if(gInfo[playerMin]<=playerNum and playerNum<=gInfo[playerMax]): #filter for number of players
+                    if(gInfo["playerMin"]<=playerNum and playerNum<=gInfo["playerMax"]): #filter for number of players
                         groupLibrary.append(game)
         #do the same for the host
         for game in self.host.getLibrary():
             if(game not in groupLibrary):
                 gInfo = game.getGame()
-                if(gInfo[playerMin]<=playerNum and playerNum<=gInfo[playerMax]): #filter for number of players
+                if(gInfo["playerMin"]<=playerNum and playerNum<=gInfo["playerMax"]): #filter for number of players
                     groupLibrary.append(game)
         return groupLibrary #returns a list of game objects
 
