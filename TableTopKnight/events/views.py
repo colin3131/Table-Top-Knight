@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import AuthenticationForm
 from .forms import SignUpForm, VoteForm
 from database.models import Vote, Event, Game
 
@@ -22,7 +23,20 @@ def contactus(request):
 # TODO
 # Other Data Needed: 
 def log_in(request):
-    return render(request, 'login.html')
+    if request.user.is_authenticated:
+        return redirect('dashboard')
+    elif request.method == 'POST':
+        form = AuthenticationForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('dashboard')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
 
 # SIGN UP PAGE
 # 
