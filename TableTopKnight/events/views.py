@@ -21,7 +21,7 @@ def ourteam(request):
 def contactus(request):
     return render(request, 'contactus.html')
 
-def handler404(request):
+def handler404(request, exception):
     return render(request, 'invalid.html')
 
 # TODO
