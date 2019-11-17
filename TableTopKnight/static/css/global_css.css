@@ -192,3 +192,39 @@ p{
 }
 
 /* END HOME */
+
+/* DASHBOARD CSS */
+
+.dashboard-nav a{
+    font-size: 22px !important;
+    margin-bottom: 30px;
+}
+
+
+.dashboard-fas{
+    margin-right: 22px !important;
+    width: 33px;
+    text-align: center;
+}
+
+.dash-divider{
+    background-color: black !important;
+    border-color: #ddd !important;
+    width: 100% !important;
+}
+
+.dashboard-sub-panel{
+    background-color: white !important;
+    border: 1px solid black;
+    width: 100%;
+
+}
+
+.dashboard-top-panel{
+    background-color: #2d3142 !important;
+}
+
+table, tr, td{
+    border: 1px solid #ddd !important;
+}
+/* END DASHBOARD */

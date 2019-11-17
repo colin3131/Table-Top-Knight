@@ -7,17 +7,17 @@ from .forms import SignUpForm, VoteForm
 from database.models import Vote, Event, Game
 
 # TODO
-# Other Data Needed: 
+# Other Data Needed:
 def home(request):
     return render(request, 'home.html')
 
 # TODO
-# Other Data Needed: 
+# Other Data Needed:
 def ourteam(request):
     return render(request, 'ourteam.html')
 
 # TODO
-# Other Data Needed: 
+# Other Data Needed:
 def contactus(request):
     return render(request, 'contactus.html')
 
@@ -25,7 +25,7 @@ def handler404(request, exception):
     return render(request, 'invalid.html')
 
 # TODO
-# Other Data Needed: 
+# Other Data Needed:
 def log_in(request):
     if request.user.is_authenticated:
         return redirect('dashboard')
@@ -43,7 +43,7 @@ def log_in(request):
     return render(request, 'login.html', {'form': form})
 
 # SIGN UP PAGE
-# 
+#
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -96,19 +96,19 @@ def vote(request, eventID):
         return render(request, 'vote.html', {'form':form})
 
 # TODO
-# Other Data Needed: 
+# Other Data Needed:
 @login_required
 def dashboard(request):
     return render(request, 'dashboard.html')
 
 # TODO
-# Other Data Needed: 
+# Other Data Needed:
 @login_required
 def library(request):
     return render(request, 'library.html')
 
 # TODO
-# Other Data Needed: 
+# Other Data Needed:
 @login_required
 def game(request, gameID=1):
     game = Game.objects.get(pk=gameID)
@@ -120,26 +120,26 @@ def game(request, gameID=1):
     return render(request, 'game.html', {"game": game, "game_owned": game_owned})
 
 # TODO
-# Other Data Needed: 
+# Other Data Needed:
 @login_required
 def myevent(request, eventID):
     this_event = Event.objects.get(pk=eventID)
     return render(request, 'event.html', {"event": this_event})
 
 # TODO
-# Other Data Needed: 
+# Other Data Needed:
 @login_required
 def myevents(request):
     return render(request, 'myevents.html')
 
 # TODO
-# Other Data Needed: 
+# Other Data Needed:
 @login_required
 def friends(request):
     return render(request, 'myfriends.html')
 
 # TODO
-# Other Data Needed: 
+# Other Data Needed:
 @login_required
 def friend(request, userID):
     return render(request, 'friend.html', User.objects.get(pk=userID))

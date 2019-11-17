@@ -1,4 +1,5 @@
 
+{% extends 'base.html' %}
 <!-- DELETE THIS WHEN IN PRODUCTION MODE -->
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +16,6 @@
 
 </head>
 
-{% extends 'base.html' %}
 
 {% block content %}
 
@@ -43,7 +43,8 @@
                     {% endif %}
                   </span>
                 {% endfor %}
-                <button class="btn btn-danger" type="submit">Log in</button>
+                <button class="btn btn-danger" style="margin-top:20px;"  type="submit">Log in</button>
+                <br/><br/>
                 <a href="{% url 'signup' %}">Don't Have An Account? Sign Up!</a>
               </form>
           </div>
