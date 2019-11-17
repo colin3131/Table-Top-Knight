@@ -98,7 +98,7 @@ class Profile(models.Model):
     # user.profile.addNotification(string:message, string:link)
     def addNotification(self, message, link):
         Notification.objects.create_notification(
-            self.user.id, message, link
+            self, message, link
         )
 
     # Removes a notification from a user
@@ -119,6 +119,9 @@ class Profile(models.Model):
     # user.profile.getEventsAttending()
     def getEventsAttending(self):
         return self.events_attending.all()
+
+    def getAllEvents(self):
+        return self.getEventsHosting() + self.getEventsAttending()
 
     
 
@@ -209,28 +212,28 @@ class Event(models.Model):
     )
 
     def addPending(self, user):
-        if isinstance(user, User):
+        if isinstance(user, Profile):
             self.pendingPlayers.add(user)
             return True
         else:
             return False
     
     def removePending(self, user):
-        if isinstance(user, User):
+        if isinstance(user, Profile):
             self.pendingPlayers.remove(user)
             return True
         else:
             return False
 
     def addAttendee(self, user):
-        if isinstance(user, User):
+        if isinstance(user, Profile):
             self.attendees.add(user)
             return True
         else:
             return False
     
     def removeAttendee(self, user):
-        if isinstance(user, User):
+        if isinstance(user, Profile):
             self.attendees.remove(user)
             return True
         else:

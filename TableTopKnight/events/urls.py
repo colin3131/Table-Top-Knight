@@ -9,6 +9,7 @@ urlpatterns = [
     path('ourteam/', views.ourteam, name='ourteam'),
     path('contactus/', views.contactus, name='contactus'),
     path('login/', views.log_in, name='login'),
+    path('logout/', views.logout_view, name='logout'),
     path('library/', views.library, name='library'),
     path('games/<int:gameID>/', views.game, name='game'),
     path('myevents/', views.myevents, name='myevents'),
@@ -16,4 +17,7 @@ urlpatterns = [
     path('myevents/<int:eventID>/vote/', views.vote, name='vote'),
     path('friends/', views.friends, name='friends'),
     path('friends/<int:userID>/', views.friend, name='friend'),
+    path('friends/<int:userID>/add', views.addfriend, name='addfriend'),
 ]
+
+handler404 = views.handler404

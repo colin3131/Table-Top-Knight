@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 from .forms import SignUpForm, VoteForm
 from database.models import Vote, Event, Game
 
@@ -19,6 +20,9 @@ def ourteam(request):
 # Other Data Needed: 
 def contactus(request):
     return render(request, 'contactus.html')
+
+def handler404(request):
+    return render(request, 'invalid.html')
 
 # TODO
 # Other Data Needed: 
@@ -57,6 +61,11 @@ def signup(request):
 # All user data is included by default
 # Need to create forms for: Creating an event, voting (possibly), and adding to library (possibly)
 
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
 # VOTING PAGE
 @login_required
 def vote(request, eventID):
@@ -66,25 +75,24 @@ def vote(request, eventID):
             Vote.objects.create(
                 event=Event.objects.get(pk=eventID),
                 game=form.cleaned_data['game1'],
-                rank=form.cleaned_data['rank1'],
+                rank=1,
                 profile=request.user.profile
             )
             Vote.objects.create(
                 event=Event.objects.get(pk=eventID),
                 game=form.cleaned_data['game2'],
-                rank=form.cleaned_data['rank2'],
+                rank=2,
                 profile=request.user.profile
             )
             Vote.objects.create(
                 event=Event.objects.get(pk=eventID),
                 game=form.cleaned_data['game3'],
-                rank=form.cleaned_data['rank3'],
+                rank=3,
                 profile=request.user.profile
             )
             return redirect('myevent', eventID=eventID)
         else:
-            game_choices = [(game, game.gameName) for game in Event.objects.get(pk=eventID).getFilteredGames()]
-            form = VoteForm(game_choices=game_choices)
+            form = VoteForm(eventID)
         return render(request, 'vote.html', {'form':form})
 
 # TODO
@@ -107,7 +115,7 @@ def game(request, gameID=1):
     if request.method == 'POST':
         added = request.user.profile.addGame(game)
         if added:
-            redirect('library')
+            return redirect('library')
     game_owned = game in request.user.profile.getLibrary()
     return render(request, 'game.html', {"game": game, "game_owned": game_owned})
 
@@ -133,8 +141,13 @@ def friends(request):
 # TODO
 # Other Data Needed: 
 @login_required
-def friend(request):
-    return render(request, 'friend.html')
+def friend(request, userID):
+    return render(request, 'friend.html', User.objects.get(pk=userID))
+
+@login_required
+def addfriend(request, userID):
+    request.user.profile.addFriend(User.objects.get(pk=userID).profile)
+    return redirect('friends')
 
 # TODO
 # Other pages: ?
