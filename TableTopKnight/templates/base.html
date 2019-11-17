@@ -15,11 +15,10 @@
   <body>
     <header>
      {% if user.is_authenticated %}
-     <h1> --- Authenticated Nav Bar Here ---</h1>
-     <br/><br/>
+
       <nav class="navbar navbar-expand-lg navbar-custom static-top">
         <div class="container">
-          <a class="navbar-brand" href="#">
+          <a class="navbar-brand" href="/home">
                 <img src="{% static 'imgs/TTK_Logo.png' %}" alt="">
               </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,19 +28,19 @@
             <ul class="navbar-nav ml-auto">
 
               <li class="nav-item">
-                <a class="nav-link" href="#">Home</a>
+                <a class="nav-link" href="/home">Home</a>
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" href="#">Our Team</a>
+                <a class="nav-link" href="/ourteam">Our Team</a>
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" href="#">Support</a>
+                <a class="nav-link" href="/support">Support</a>
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" href="#">Contact Us</a>
+                <a class="nav-link" href="contactus">Contact Us</a>
               </li>
 
               <li class="nav-item">
@@ -54,7 +53,11 @@
 
                       </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        You have 1 pending invite!
+                        {% for notification in user.profile.getNotifications %}
+
+                            <a href="{{ notification.link }}">{{ notification.message }}</a>
+                        
+                        {% endfor %}
                       </div>
                     </li>
 
@@ -65,10 +68,10 @@
                         {{ request.user.username }}
                       </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Dashboard</a>
-                        <a class="dropdown-item" href="#">My Friends</a>
-                        <a class="dropdown-item" href="#">My Library</a>
-                        <a class="dropdown-item" href="#">My Events</a>
+                        <a class="dropdown-item" href="/dashboard">Dashboard</a>
+                        <a class="dropdown-item" href="/myfriends">My Friends</a>
+                        <a class="dropdown-item" href="/mylibrary">My Library</a>
+                        <a class="dropdown-item" href="/myevents">My Events</a>
 
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Log Out</a>
@@ -83,8 +86,7 @@
 
 
       {% else %}
-        <h1> --- Unauthenticated Nav Bar Here ---</h1>
-        <br/><br/>
+
         <nav class="navbar navbar-expand-lg navbar-custom static-top">
           <div class="container">
             <a class="navbar-brand" href="#">
@@ -97,29 +99,29 @@
               <ul class="navbar-nav ml-auto">
 
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Home</a>
+                  <a class="nav-link" href="/home">Home</a>
                 </li>
 
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Our Team</a>
+                  <a class="nav-link" href="/ourteam">Our Team</a>
                 </li>
 
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Support</a>
+                  <a class="nav-link" href="/support">Support</a>
                 </li>
 
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Contact Us</a>
+                  <a class="nav-link" href="/contactus">Contact Us</a>
                 </li>
 
                 <li class="nav-item no-margin-right" >
-                  <a class="nav-link" href="#">Login</a>
+                  <a class="nav-link" href="/login">Login</a>
                 </li>
                 <li class="nav-item seperator">
                   <a class="nav-link"> / </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Create Account</a>
+                  <a class="nav-link" href="/signup">Create Account</a>
                 </li>
 
               </ul>
@@ -151,16 +153,16 @@
             <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
             <ul class="list-unstyled">
               <li>
-                <a href="#!">Home</a>
+                <a href="/home">Home</a>
               </li>
               <li>
-                <a href="#!">Our Team</a>
+                <a href="/ourteam">Our Team</a>
               </li>
               <li>
-                <a href="#!">Support</a>
+                <a href="/support">Support</a>
               </li>
               <li>
-                <a href="#!">Contact Us</a>
+                <a href="/contactus">Contact Us</a>
               </li>
             </ul>
           </div>
@@ -170,16 +172,16 @@
             <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Your Account</h5>
             <ul class="list-unstyled">
               <li>
-                <a href="#!">Dashboard</a>
+                <a href="/dashboard">Dashboard</a>
               </li>
               <li>
-                <a href="#!">My Friends</a>
+                <a href="/myfriends">My Friends</a>
               </li>
               <li>
-                <a href="#!">My Library</a>
+                <a href="/mylibrary">My Library</a>
               </li>
               <li>
-                <a href="#!">My Events</a>
+                <a href="/myevents">My Events</a>
               </li>
             </ul>
           </div>
@@ -194,7 +196,7 @@
       <ul class="list-unstyled list-inline text-center py-2">
 {% if user.is_authenticated %}
         <li class="list-inline-item">
-          <a href="#!" class="btn btn-danger btn-rounded">View Your Dashboard</a>
+          <a href="/dashboard" class="btn btn-danger btn-rounded">View Your Dashboard</a>
         </li>
         <li class="list-inline-item">
           <span></span>
@@ -204,7 +206,7 @@
   <h5 class="mb-1">Register for free</h5>
 </li>
 <li class="list-inline-item">
-  <a href="#!" class="btn btn-danger btn-rounded">Sign up!</a>
+  <a href="/signup" class="btn btn-danger btn-rounded">Sign up!</a>
 </li>
 {% endif %}
       </ul>
@@ -212,7 +214,7 @@
 
       <div class="footer-copyright text-center py-3">
         <p>Copyright © {% now "Y" %} Table Top Knights. All Rights Reserved.</p>
-        <a href="#"> Learn More About Our Team</a>
+        <a href="/ourteam"> Learn More About Our Team</a>
       </div>
     </footer>
 {% endblock %}
