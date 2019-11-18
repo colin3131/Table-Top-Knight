@@ -42,7 +42,7 @@ class Profile(models.Model):
             return True
         else:
             return False
-    
+
     # Returns the Profile of all friends
     # user.profile.getFriends()
     def getFriends(self):
@@ -65,7 +65,7 @@ class Profile(models.Model):
             return True
         else:
             return False
-    
+
     # Returns the library of the user
     # user.profile.getLibrary()
     def getLibrary(self):
@@ -79,7 +79,7 @@ class Profile(models.Model):
             return True
         else:
             return False
-    
+
     # Removes a game from the user's library
     # user.profile.removeGame(Game instance)
     def removeGame(self, game):
@@ -109,7 +109,7 @@ class Profile(models.Model):
             return True
         else:
             return False
-    
+
     # Returns all events a user is hosting
     # user.profile.getEventsHosting()
     def getEventsHosting(self):
@@ -123,7 +123,7 @@ class Profile(models.Model):
     def getAllEvents(self):
         return self.getEventsHosting() + self.getEventsAttending()
 
-    
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -152,7 +152,8 @@ class GameManager(models.Manager):
         return new_game
     def delete_game(self, gameID):
         self.get(gameID=self.id).delete()
-
+    def getAllGames(self):
+        return self.all()
 
 class Game(models.Model):
     gameName = models.CharField(max_length=50, default="")
@@ -185,7 +186,7 @@ class EventManager(models.Manager):
         )
         new_event.save()
         return new_event
-    
+
     def remove_event(self, eventID):
         self.get(eventID=self.id).delete()
 
@@ -218,7 +219,7 @@ class Event(models.Model):
             return True
         else:
             return False
-    
+
     def removePending(self, user):
         if isinstance(user, Profile):
             self.pendingPlayers.remove(user)
@@ -232,7 +233,7 @@ class Event(models.Model):
             return True
         else:
             return False
-    
+
     def removeAttendee(self, user):
         if isinstance(user, Profile):
             self.attendees.remove(user)
@@ -312,7 +313,7 @@ class Event(models.Model):
             elif(vote.getRank()==3):
                 rankings[vote.getGame()] += 1
         #produces a list of tuples (game, rankScore) of the top 3 games
-        gameRanks = Counter(rankings).most_common(3) 
+        gameRanks = Counter(rankings).most_common(3)
         #converts gameranks to a list of top 3 games
         for i in range(len(gameRanks)):
             gameRanks[i] = gameRanks[i][0]
@@ -363,7 +364,7 @@ class Vote(models.Model):
         validators=[MaxValueValidator(3), MinValueValidator(1)]
     )
     objects = VoteManager()
-    
+
     def getGame(self):
         return self.game
 
