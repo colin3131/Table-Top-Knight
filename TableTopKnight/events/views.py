@@ -30,7 +30,7 @@ def log_in(request):
     if request.user.is_authenticated:
         return redirect('dashboard')
     elif request.method == 'POST':
-        form = AuthenticationForm(request.POST)
+        form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -46,14 +46,14 @@ def log_in(request):
 #
 def signup(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = SignUpForm(data=request.POST)
         if form.is_valid():
             user = form.save()
             user.save()
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
-            return redirect('home')
+            return redirect('dashboard')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
@@ -148,6 +148,11 @@ def friend(request, userID):
 def addfriend(request, userID):
     request.user.profile.addFriend(User.objects.get(pk=userID).profile)
     return redirect('friends')
+
+@login_required
+def addgame(request, gameID):
+    request.user.profile.addGame(Game.objects.get(pk=gameID))
+    return redirect('library')
 
 # TODO
 # Other pages: ?
