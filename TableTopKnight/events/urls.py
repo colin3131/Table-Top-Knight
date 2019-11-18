@@ -13,6 +13,7 @@ urlpatterns = [
     path('library/', views.library, name='library'),
     path('games/<int:gameID>/', views.game, name='game'),
     path('games/<int:gameID>/add/', views.addgame, name='addgame'),
+    path('games/<int:gameID>/remove/', views.removegame, name='removegame'),
     path('myevents/', views.myevents, name='myevents'),
     path('myevents/<int:eventID>/', views.myevent, name='myevent'),
     path('myevents/<int:eventID>/vote/', views.vote, name='vote'),
