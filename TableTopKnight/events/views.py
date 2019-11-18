@@ -154,5 +154,10 @@ def addgame(request, gameID):
     request.user.profile.addGame(Game.objects.get(pk=gameID))
     return redirect('library')
 
+@login_required
+def removegame(request, gameID):
+    request.user.profile.removeGame(Game.objects.get(pk=gameID))
+    return redirect('library')
+
 # TODO
 # Other pages: ?
