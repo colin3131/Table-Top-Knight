@@ -119,100 +119,25 @@
         </div>
         <div class="col-md-10">
             <div class="jumbotron">
+
+
+
                 <div class="row ">
-                    <div class="col-md-12 dashboard-top-panel">
-                        <h1> Welcome To Table Top Knight! </h1>
-                        <h2>We've assembled some links for you to get started: </h2>
-                        <div class="row dashboard-sub-row">
-                            <div class="col-md-4">
-                                <a href="/editprofile"> Setup Profile </a>
-                                <br/>
-                                <p>or, create your <a href="/createevent">first event!</a></p>
-                            </div>
+                    <ul class="list-unstyled">
+                    {% for game in games %}
 
-                            <div class="col-md-4">
-                                <h3>Next Steps:</h3>
-                                <ul>
-                                    <li><a href="/addgame">Add Games To Your Library</a></li>
-                                    <li><a href="/createevent">Create An Event</a></li>
-                                    <li><a href="/addfriend">Add Friends</a></li>
+                        <li class="media">
+                        <img src="{{ game.getGame["thumbnail_url"] }}" class="mr-3" alt="Image of {{ game.getGame["gameName"]}}.">
+                        <div class="media-body">
+                          <a href="/games/{{ game.id }}">
+                          <h5 class="mt-0 mb-1">{{ game.getGame["gameName"] }}</h5>
+                          </a>
+                          {{ game.getGame["description"]|truncatewords:50 }}
+                        </div>
+                        </li>
 
-                                </ul>
-                            </div>
-
-                            <div class="col-md-4">
-                                <h3>More Links:</h3>
-
-                                <ul>
-                                    <li><a href="#">Some link</a></li>
-                                    <li><a href="#">Some link</a></li>
-                                    <li><a href="#">Some link</a></li>
-
-                                </ul>
-                            </div>
-                    </div>
-                </div>
-
-                <div class="col-md-12 dashboard-sub-row-padding">
-
-                    <div class="row dashboard-sub-row">
-                    <div class="col-md-4 dashboard-sub-panel">
-                        <br/>
-                        <h3> Your Notifications: </h3>
-                        <div class="dropdown-divider"></div>
-
-                        {% for notification in user.profile.getNotifications %}
-
-                            <a href="{{ notification.link }}">{{ notification.message }}</a>
-
-                        {% endfor %}
-                    </div>
-
-                    <div class="col-md-4 dashboard-sub-panel">
-                        <br/>
-                        <h3> Your Library </h3>
-                        <div class="dropdown-divider"></div>
-
-
-                        <table class="table table-bordered">
-                          <thead>
-                            <tr>
-                              <th scope="col">Game Name</th>
-                              <th scope="col">Genre</th>
-                              <th scope="col">Players</th>
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                              <tr>
-                                <td>Game1</td>
-                                <td>Genre1</td>
-                                <td>NumPlayers1</td>
-                              </tr>
-                              <tr>
-                                <td>Game2</td>
-                                <td>Genre2</td>
-                                <td>NumPlayers2</td>
-                              </tr>
-                              <tr>
-                                  <td>Game3</td>
-                                  <td>Genre3</td>
-                                  <td>NumPlayers3</td>
-                              </tr>
-                          </tbody>
-                        </table>
-
-                    </div>
-
-                    <div class="col-md-4 dashboard-sub-panel">
-                        <br/>
-                        <h3> Your Upcoming Events: </h3>
-                        <div class="dropdown-divider"></div>
-
-                    </div>
-
-</div>
-</div>
+                    {% endfor %}
+                    </ul>
                 </div>
         </div>
 
