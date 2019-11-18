@@ -160,7 +160,8 @@ class Game(models.Model):
     playerMax = models.IntegerField()
     genre = models.CharField(max_length=50, default="")
     thumbnail_url = models.CharField(max_length=100, default="")
-    description = models.CharField(max_length=200, default="")
+    description = models.CharField(max_length=10000, default="")
+    objects = GameManager()
 
     def getGame(self):
         game = {
