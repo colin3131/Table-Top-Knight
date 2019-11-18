@@ -9,6 +9,7 @@ verify_ssl = true
 django = "*"
 pylint = "*"
 psycopg2 = "*"
+py-bgg = "*"
 
 [requires]
 python_version = "3.7"
