@@ -149,15 +149,19 @@ def addfriend(request, userID):
     request.user.profile.addFriend(User.objects.get(pk=userID).profile)
     return redirect('friends')
 
-@login_required
+@login_required # called via /games/<id>/add
 def addgame(request, gameID):
     request.user.profile.addGame(Game.objects.get(pk=gameID))
     return redirect('library')
 
-@login_required
+@login_required # called via /games/<id>/remove
 def removegame(request, gameID):
     request.user.profile.removeGame(Game.objects.get(pk=gameID))
     return redirect('library')
+
+@login_required
+def allgames(request):
+    return render(request, 'games.html', {"games": Game.objects.getAllGames()})
 
 # TODO
 # Other pages: ?
