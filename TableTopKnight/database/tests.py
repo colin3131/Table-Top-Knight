@@ -80,3 +80,66 @@ class ProfileTest(TestCase):
 		# Returns a list of events a user is attending
 		jackson = User.objects.get(username="jackson", email="jackson@gmail.com", password="testpass123")
 		assertTrue(jackson.getEventsAttending())
+
+
+class EventTest(TestCase):
+	def setUp(self):
+		User.objects.create_user(
+			username="colin", email="colin@gmail.com", password="testpass123")
+		User.objects.create_user(
+			username="connor", email="connor@gmail.com", password="testpass123")
+		User.objects.create_user(
+			username="jackson", email="jackson@gmail.com", password="testpass123")
+
+		event = Event.objects.create_event(host=colin.profile, eventDatetime=datetime(
+			year=2019, month=10, day=15, hour=15), location="Posvar")
+
+		GameManager.objects.create_game(gameName="pokemonGO", playerMin="1", playerMax="10",
+		                                genre="RPG", thumbnail_url="pkmn", description="Fun for all ages!")
+
+	def addPending(self):
+		# Adds a player to pendingPlayers, returns true/false
+		self.assertTrue(event.addPending(connor.profile))
+
+	def removePending(self):
+		# Removes a player from pendingPlayers, returns true/false
+		self.assertTrue(event.removePending(connor.profile))
+
+	def addAttendee(self):
+		# Adds a user to the attendees, returns true/false
+		self.assertTrue(event.addAttendee(jackson.profile))
+
+	def removeAttendee(self):
+		# Removes a user from the attendees, returns true/false
+		self.assertTrue(event.removeAttendee(jackson.profile))
+
+	def sendInvites():
+		# Invites all of the players that are currently pending
+		event.addPending(connor.profile)
+		event.sendInvites()
+		self.assertIn()
+
+	def canVote():
+		# Returns true if the event is currently in the voting phase
+		self.assertTrue(event.canVote())
+
+	def canInvite():
+		# Returns true if the event is currently in the invite phase
+		self.assertTrue(event.canInvite())
+
+	def canPlay():
+		# Returns true if the event is currently in the pre-game phase
+		self.assertTrue(event.canPlay())
+
+	def startVoting():
+		# Sets the event's state to the Voting phase, returns nothing
+		self.assertTrue()
+
+	def endVoting():
+		# Sets the event's state to the pre-game phase, returns nothing
+
+	def getFilteredGames():
+		# Returns a list of games that users own, filtered by the amount of players
+
+	def getRankedGames():
+		# Returns a list of games that have been chosen based on the voting phase
