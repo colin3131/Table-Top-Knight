@@ -73,7 +73,7 @@ def newevent(request):
             return redirect('myevents')
     else:
         form = EventForm()
-    return render(request, 'newevent.html', {'form': form})
+    return render(request, 'createevent.html', {'form': form})
 
 @login_required
 def logout_view(request):

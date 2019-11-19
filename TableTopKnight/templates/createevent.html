@@ -83,10 +83,10 @@
                     </table>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/events">My Events</a>
+                    <a class="dropdown-item" href="/editprofile">My Events</a>
 
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/events/createevent">Create Event</a>
+                    <a class="dropdown-item" href="#">Create Event</a>
 
                     </div>
                     </li>
@@ -119,92 +119,25 @@
         </div>
         <div class="col-md-10">
             <div class="jumbotron">
-                <div class="row  dashboard-top-panel">
-                    <div class="col-md-12">
-                        <h1> Welcome To Table Top Knight! </h1>
-                        <br/>
-                        <h5>We've assembled some links for you to get started: </h5>
-                        <br/>
-                        <div class="row dashboard-sub-row">
-                            <div class="col-md-4">
-                                <a href="/editprofile"> Setup Your Profile </a>
-
-                                or, create your <a href="/events/createevent">first event!</a>
-                            </div>
-
-                            <div class="col-md-4">
-                                <h3>Next Steps:</h3>
-                                <ul>
-                                    <li><a href="/addgame">Add Games To Your Library</a></li>
-                                    <li><a href="/events/createevent">Create An Event</a></li>
-                                    <li><a href="/addfriend">Add Friends</a></li>
-
-                                </ul>
-                            </div>
-
-                            <div class="col-md-4">
-                                <h3>More Links:</h3>
-
-                                <ul>
-                                    <li><a href="/support">Visit Support</a></li>
-                                    <li><a href="/ourteam">Learn More About Our Team</a></li>
-                                    <li><a href="/contactus">Contact Us</a></li>
-
-                                </ul>
-                            </div>
-                    </div>
-                </div>
-
-                <div class="col-md-12 dashboard-sub-row-padding">
-
-                    <div class="row dashboard-sub-row">
-                    <div class="col-md-4 dashboard-sub-panel">
-                        <br/>
-                        <h3> Your Notifications: </h3>
-                        <div class="dropdown-divider"></div>
-
-                        {% for notification in user.profile.getNotifications %}
-
-                            <a href="{{ notification.link }}">{{ notification.message }}</a>
-
+                
+                <h2>Create Event</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                          <p>
+                            {{ field.label_tag }}<br>
+                            {{ field }}
+                            {% if field.help_text %}
+                              <small style="color: grey">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% for error in field.errors %}
+                              <p style="color: red">{{ error }}</p>
+                            {% endfor %}
+                          </p>
                         {% endfor %}
-                    </div>
-
-                    <div class="col-md-4 dashboard-sub-panel">
-                        <br/>
-                        <h3> Your Library </h3>
-                        <div class="dropdown-divider"></div>
-
-
-                        <ul class="dashboard-library">
-                          {% for game in user.profile.getLibrary|slice:"0:11" %}
-
-                              <li >
-
-                              <div class="">
-                                <a href="/games/{{ game.id }}">
-                                <p class="mt-0 mb-1">{{ game.gameName }}</p>
-
-                                </a>
-
-                              </div>
-                              </li>
-
-                          {% endfor %}
-</ul>
-
-                    </div>
-
-                    <div class="col-md-4 dashboard-sub-panel">
-                        <br/>
-                        <h3> Your Upcoming Events: </h3>
-                        <div class="dropdown-divider"></div>
-
-                    </div>
-
-</div>
-</div>
-                </div>
+                        <button class="btn btn-danger" type="submit">Create Event</button>
+                    </form>
+            </div>
         </div>
 
     </div>

@@ -5,8 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('signup/', views.signup, name='signup'),
-    path('home/', views.home, name='home'),
-    path('dashboard/', views.dashboard, name='dashboard'),
+    path('home/', views.home, name='home'),    path('dashboard/', views.dashboard, name='dashboard'),
     path('ourteam/', views.ourteam, name='ourteam'),
     path('contactus/', views.contactus, name='contactus'),
     path('login/', views.log_in, name='login'),
@@ -17,7 +16,7 @@ urlpatterns = [
     path('games/<int:gameID>/add/', views.addgame, name='addgame'),
     path('games/<int:gameID>/remove/', views.removegame, name='removegame'),
     path('events/', views.myevents, name='myevents'),
-    path('events/new/', views.newevent, name='newevent'),
+    path('events/createevent/', views.newevent, name='newevent'),
     path('events/<int:eventID>/', views.myevent, name='myevent'),
     path('events/<int:eventID>/vote/', views.vote, name='vote'),
     path('friends/', views.friends, name='friends'),
