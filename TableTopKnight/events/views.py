@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from .forms import SignUpForm, VoteForm
+from .forms import SignUpForm, VoteForm, EventForm
 from database.models import Vote, Event, Game
 
 # TODO
@@ -60,6 +60,20 @@ def signup(request):
 
 # All user data is included by default
 # Need to create forms for: Creating an event, voting (possibly), and adding to library (possibly)
+
+@login_required
+def newevent(request):
+    if request.method == 'POST':
+        form = EventForm(data=request.POST)
+        if form.is_valid():
+            event = form.save(commit=False)
+            event.host = request.user.profile
+            event.event_state='PV'
+            event.save()
+            return redirect('myevents')
+    else:
+        form = EventForm()
+    return render(request, 'newevent.html', {'form': form})
 
 @login_required
 def logout_view(request):
