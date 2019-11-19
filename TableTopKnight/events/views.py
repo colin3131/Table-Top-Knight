@@ -179,7 +179,7 @@ def addgame(request, gameID):
 @login_required # called via /games/<id>/remove
 def removegame(request, gameID):
     request.user.profile.removeGame(Game.objects.get(pk=gameID))
-    return redirect('library')
+    return redirect('game', gameID)
 
 @login_required
 def allgames(request):
