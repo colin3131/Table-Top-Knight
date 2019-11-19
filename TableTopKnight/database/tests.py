@@ -13,60 +13,63 @@ class ProfileTest(TestCase):
 		User.objects.create_user(username="jackson", email="jackson@gmail.com", password="testpass123")
 		GameManager.objects.create_game(gameName="pokemonGO", playerMin="1", playerMax="10", genre="RPG", thumbnail_url="pkmn", description="Fun for all ages!")
 
-	def verifyLogin(string:username, string:password): 	
+	def verifyLogin(self): 	
 		# Returns True or False
 		colin = User.objects.get(username="colin", email="colin@gmail.com", password="testpass123")
-		assertTrue(colin.profile.verifyLogin("colin", "testpass123"))
+		self.assertTrue(colin.profile.verifyLogin("colin", "testpass123"))
 
-	def changePassword(string:oldpass, string:newpass):
+	def changePassword(self):
 		# Returns True or False (based on success)
 		colin = User.objects.get(username="colin", email="colin@gmail.com", password="testpass123")
 		colin.profile.set_password(password="newpass123")
-		assertTrue(colin.profile.changePassword("testpass123", "newpass123"))
+		self.assertTrue(colin.profile.changePassword("testpass123", "newpass123"))
 
-	def addFriend(Profile:new_friend):
+	def addFriend(self):
 		# Returns True or False (based on success)
 		connor = User.objects.get(username="connor", email="connor@gmail.com", password="testpass123")
 		colin = User.objects.get(username="colin", email="colin@gmail.com", password="testpass123")
-		assertTrue(connor.profile.addFriend(colin))
+		self.assertTrue(connor.profile.addFriend(colin))
 
-	def removeFriend(Profile:old_friend):
+	def removeFriend(self):
 		# Returns True or False (based on success)
 		connor = User.objects.get(username="connor", email="connor@gmail.com", password="testpass123")
 		colin = User.objects.get(username="colin", email="colin@gmail.com", password="testpass123")
-		assertTrue(connor.profile.removeFriend(colin))
+		self.assertTrue(connor.profile.removeFriend(colin))
 	
 	def getLibrary():
 		# Returns a list of owned games
+		pokemonGO = Game.objects.get(gameName="pokemonGO")
 		jackson = User.objects.get(username="jackson", email="jackson@gmail.com", password="testpass123")
+		jackson.addGame(pokemonGO)
 		assertTrue(jackson.getLibrary())
 
-	def addGame(Game:new_game):
+	def addGame(self):
 		# Returns True or False (based on success)
 		pokemonGO = Game.objects.get(gameName="pokemonGO")
 		jackson = User.objects.get(username="jackson", email="jackson@gmail.com", password="testpass123")
-		assertTrue(jackson.addGame(pokemonGO))
+		self.assertTrue(jackson.addGame(pokemonGO))
 
-	def removeGame(Game:old_game):
+	def removeGame(self):
 		# Returns True or False (based on success)
 		pokemonGO = Game.objects.get(gameName="pokemonGO")
 		jackson = User.objects.get(username="jackson", email="jackson@gmail.com", password="testpass123")
-		assertTrue(jackson.removeGame(pokemonGO))
+		self.assertTrue(jackson.removeGame(pokemonGO))
 
 	def getNotifications():
 		# Returns a list of all notifications
 		connor = User.objects.get(username="connor", email="connor@gmail.com", password="testpass123")
+		connor.addNotification("You've been added to a game!")
 		assertTrue(connor.getNotifications())
 
-	def addNotification(string:message, string:link):
+	def addNotification(self):
 		# Creates a notification for a user
 		connor = User.objects.get(username="connor", email="connor@gmail.com", password="testpass123")
-		assertTrue(connor.addNotification("You've been added to a game", "https://google.com"))
+		self.assertTrue(connor.addNotification("You've been added to a game", "https://google.com"))
 
-	def removeNotification(notification:old_note):
+	def removeNotification(self):
 		# Returns True or False (based on success)
 		connor = User.objects.get(username="connor", email="connor@gmail.com", password="testpass123")
-		assertTrue(connor.removeNotification("You've been added to a game"))
+		self.assertTrue(connor.removeNotification("You've been added to a game"))
 
 	def getEventsHosting():
 		# Returns a list of events a user is hosting
