@@ -120,28 +120,16 @@
         <div class="col-md-10">
             <div class="jumbotron">
 
+                {% if game_owned %}
+                <h2> Game is owned</h2>
+                <a href="/games/{{ game.id }}/remove"> REMOVE GAME </a>
+                {% else %}
+                <h3> Game is not owned </h3>
+                <a href="/games/{{ game.id }}/add"> ADD GAME </a>
+                {% endif %}
+                <h1>{{ game.gameName   }}</h1>
 
 
-                <div class="row ">
-                    <h1>Below are a list of current games in our database for you to add to your library</h1>
-                    <ul class="list-unstyled">
-
-                    {% for game in games %}
-
-                        <li class="media">
-                        <img src="{{ game.thumbnail_url }}" class="mr-3" alt="Image of {{ game.gameName }}.">
-                        <div class="media-body">
-                          <a href="/games/{{ game.id }}">
-                          <h3 class="mt-0 mb-1">{{ game.gameName }}</h3>
-                          <h4 class="">Genre: {{ game.genre }} </h4>
-                          </a>
-                          {{ game.description|truncatewords:100 }}
-                        </div>
-                        </li>
-
-                    {% endfor %}
-                    </ul>
-                </div>
         </div>
 
     </div>
