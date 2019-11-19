@@ -143,8 +143,8 @@ class EventTest(TestCase):
 
 	def endVoting():
 		# Sets the event's state to the pre-game phase, returns nothing
-
-	def getFilteredGames():
+		
+	def	getFilteredGames():
 		# Returns a list of games that users own, filtered by the amount of players
 
 	def getRankedGames():
