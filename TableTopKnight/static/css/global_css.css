@@ -194,7 +194,10 @@ p{
 /* END HOME */
 
 /* DASHBOARD CSS */
-
+.dashboard-top-panel h1{
+    color: #2d3142
+ !important;
+}
 .dashboard-nav a{
     font-size: 22px !important;
     margin-bottom: 30px;
@@ -217,14 +220,40 @@ p{
     background-color: white !important;
     border: 1px solid black;
     width: 100%;
+    height: 400px !important;
 
 }
 
-.dashboard-top-panel{
-    background-color: #2d3142 !important;
+.dashboard-library{
+    list-style-type: none !important;
 }
 
 table, tr, td{
     border: 1px solid #ddd !important;
 }
 /* END DASHBOARD */
+
+
+/* GAMES CSS */
+.media img{
+    width: 200px !important;
+    height: 150px;
+    margin-left: 25px !important;
+}
+
+.media{
+    margin-bottom: 50px !important;
+}
+
+
+
+/* END GAMES */
+
+/* GAME CSS */
+.game-btn{
+    text-align: center;
+    margin: 0 auto;
+    
+    margin-top: 25px;
+}
+/* END GAME */

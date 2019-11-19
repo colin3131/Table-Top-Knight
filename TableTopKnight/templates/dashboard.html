@@ -119,15 +119,17 @@
         </div>
         <div class="col-md-10">
             <div class="jumbotron">
-                <div class="row ">
-                    <div class="col-md-12 dashboard-top-panel">
+                <div class="row  dashboard-top-panel">
+                    <div class="col-md-12">
                         <h1> Welcome To Table Top Knight! </h1>
-                        <h2>We've assembled some links for you to get started: </h2>
+                        <br/>
+                        <h5>We've assembled some links for you to get started: </h5>
+                        <br/>
                         <div class="row dashboard-sub-row">
                             <div class="col-md-4">
-                                <a href="/editprofile"> Setup Profile </a>
-                                <br/>
-                                <p>or, create your <a href="/createevent">first event!</a></p>
+                                <a href="/editprofile"> Setup Your Profile </a>
+
+                                or, create your <a href="/createevent">first event!</a>
                             </div>
 
                             <div class="col-md-4">
@@ -144,9 +146,9 @@
                                 <h3>More Links:</h3>
 
                                 <ul>
-                                    <li><a href="#">Some link</a></li>
-                                    <li><a href="#">Some link</a></li>
-                                    <li><a href="#">Some link</a></li>
+                                    <li><a href="/support">Visit Support</a></li>
+                                    <li><a href="/ourteam">Learn More About Our Team</a></li>
+                                    <li><a href="/contactus">Contact Us</a></li>
 
                                 </ul>
                             </div>
@@ -174,33 +176,22 @@
                         <div class="dropdown-divider"></div>
 
 
-                        <table class="table table-bordered">
-                          <thead>
-                            <tr>
-                              <th scope="col">Game Name</th>
-                              <th scope="col">Genre</th>
-                              <th scope="col">Players</th>
-                            </tr>
-                          </thead>
+                        <ul class="dashboard-library">
+                          {% for game in user.profile.getLibrary|slice:"0:11" %}
 
-                          <tbody>
-                              <tr>
-                                <td>Game1</td>
-                                <td>Genre1</td>
-                                <td>NumPlayers1</td>
-                              </tr>
-                              <tr>
-                                <td>Game2</td>
-                                <td>Genre2</td>
-                                <td>NumPlayers2</td>
-                              </tr>
-                              <tr>
-                                  <td>Game3</td>
-                                  <td>Genre3</td>
-                                  <td>NumPlayers3</td>
-                              </tr>
-                          </tbody>
-                        </table>
+                              <li >
+
+                              <div class="">
+                                <a href="/games/{{ game.id }}">
+                                <p class="mt-0 mb-1">{{ game.gameName }}</p>
+
+                                </a>
+
+                              </div>
+                              </li>
+
+                          {% endfor %}
+</ul>
 
                     </div>
 
