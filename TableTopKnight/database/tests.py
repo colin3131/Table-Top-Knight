@@ -152,7 +152,7 @@ class EventTest(TestCase):
 
 # Game Model
 class GameManagerTest(TestCase):
-    def create_game():
+	def create_game():
        # Adds a game into the game database
        game = Game.objects.create_game(gameName="PokemonGo", playerMin=1, playerMax=10, genre="RPG", thumbnail_url="pkmn", description="It's a game")
        assertTrue(game.gameName == "PokemonGo")
@@ -162,7 +162,7 @@ class GameManagerTest(TestCase):
        assertTrue(game.thumbnail_url == "pkmn")
        assertTrue(game.description == "It's a game")
 
-    def delete_game():
+	def delete_game():
        # Removes a game from the game database
        game = Game.objects.create_game(gameName="PokemonGo", playerMin=1, playerMax=10, genre="RPG", thumbnail_url="pkmn", description="It's a game")
        gameID = game.ID
