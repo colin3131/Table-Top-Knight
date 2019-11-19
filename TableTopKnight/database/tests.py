@@ -10,6 +10,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from .forms import SignUpForm, VoteForm, EventForm
 from database.models import Vote, Event, Game
+import datetime
 
 # Profile Model
 class ProfileTest(TestCase):
