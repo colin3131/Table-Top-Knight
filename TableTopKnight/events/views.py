@@ -99,13 +99,18 @@ def vote(request, eventID):
 # Other Data Needed:
 @login_required
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    return render(request, 'dashboard.html', {
+        "events_hosting": request.user.profile.getEventsHosting(),
+        "events_attending": request.user.profile.getEventsAttending(),
+        "library": request.user.profile.getLibrary(),
+        "notifications": request.user.profile.getNotifications(),
+    })
 
 # TODO
 # Other Data Needed:
 @login_required
 def library(request):
-    return render(request, 'library.html')
+    return render(request, 'library.html', {"library": request.user.profile.getLibrary()})
 
 # TODO
 # Other Data Needed:
@@ -130,19 +135,22 @@ def myevent(request, eventID):
 # Other Data Needed:
 @login_required
 def myevents(request):
-    return render(request, 'myevents.html')
+    return render(request, 'myevents.html', {
+        "events_hosting": request.user.profile.getEventsHosting(),
+        "events_attending": request.user.profile.getEventsAttending(),
+    })
 
 # TODO
 # Other Data Needed:
 @login_required
 def friends(request):
-    return render(request, 'myfriends.html')
+    return render(request, 'myfriends.html', {"friends": request.user.profile.getFriends()})
 
 # TODO
 # Other Data Needed:
 @login_required
 def friend(request, userID):
-    return render(request, 'friend.html', User.objects.get(pk=userID))
+    return render(request, 'friend.html', {"friend": User.objects.get(pk=userID)})
 
 @login_required
 def addfriend(request, userID):
