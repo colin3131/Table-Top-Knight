@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from database.models import Vote, Event
+from django.utils.translation import gettext_lazy as _
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
@@ -39,4 +40,12 @@ class VoteForm(forms.Form):
         to_field_name="gameName"
         )
 
-#class EventForm(ModelForm):
+class EventForm(ModelForm):
+    class Meta:
+        model = Event
+        fields = ('eventDateTime', 'location')
+        exclude = ['host', 'attendees', 'pendingPlayers', 'eventGames', 'event_state']
+        labels = {
+            'eventDateTime': _("Event's Date & Time"),
+            'location': _("Event's Location")
+        }
