@@ -101,50 +101,75 @@ class EventTest(TestCase):
 		event = Event.objects.create_event(host=colin.profile, eventDatetime=datetime(
 			year=2019, month=10, day=15, hour=15), location="Posvar")
 
-		GameManager.objects.create_game(gameName="pokemonGO", playerMin="1", playerMax="10",
+		Game.objects.create_game(gameName="pokemonGO", playerMin="1", playerMax="10",
 		                                genre="RPG", thumbnail_url="pkmn", description="Fun for all ages!")
 
 	def addPending(self):
 		# Adds a player to pendingPlayers, returns true/false
+		colin = User.objects.get(username="colin")
+		connor = User.objects.get(username="connor")
+		event = Event.objects.get(host=colin.profile)
 		self.assertTrue(event.addPending(connor.profile))
 
 	def removePending(self):
 		# Removes a player from pendingPlayers, returns true/false
+		colin = User.objects.get(username="colin")
+		connor = User.objects.get(username="connor")
+		event = Event.objects.get(host=colin.profile)
 		self.assertTrue(event.removePending(connor.profile))
 
 	def addAttendee(self):
 		# Adds a user to the attendees, returns true/false
+		colin = User.objects.get(username="colin")
+		jackson = User.objects.get(username="jackson")
+		event = Event.objects.get(host=colin.profile)
 		self.assertTrue(event.addAttendee(jackson.profile))
 
 	def removeAttendee(self):
 		# Removes a user from the attendees, returns true/false
+		colin = User.objects.get(username="colin")
+		jackson = User.objects.get(username="jackson")
+		event = Event.objects.get(host=colin.profile)
 		self.assertTrue(event.removeAttendee(jackson.profile))
 
-	def sendInvites():
+	def sendInvites(self):
 		# Invites all of the players that are currently pending
+		colin = User.objects.get(username="colin")
+		connor = User.objects.get(username="connor")
+		event = Event.objects.get(host=colin.profile)
 		event.addPending(connor.profile)
 		event.sendInvites()
 		self.assertIn(connor.profile.Notification, connor.getNotifications())
 
-	def canVote():
+	def canVote(self):
 		# Returns true if the event is currently in the voting phase
+		colin = User.objects.get(username="colin")
+		event = Event.objects.get(host=colin.profile)
 		self.assertTrue(event.canVote())
 
-	def canInvite():
+	def canInvite(self):
 		# Returns true if the event is currently in the invite phase
+		colin = User.objects.get(username="colin")
+		event = Event.objects.get(host=colin.profile)
 		self.assertTrue(event.canInvite())
 
-	def canPlay():
+	def canPlay(self):
 		# Returns true if the event is currently in the pre-game phase
+		colin = User.objects.get(username="colin")
+		event = Event.objects.get(host=colin.profile)
 		self.assertTrue(event.canPlay())
 
-	def startVoting():
+	def startVoting(self):
 		# Sets the event's state to the Voting phase, returns nothing
+		colin = User.objects.get(username="colin")
+		event = Event.objects.get(host=colin.profile)
 		event.startvoting()
 		self.assertEqual(event.event_state, event.VOTING)
 		
-	def endVoting():
+	def endVoting(self):
 		# Sets the event's state to the pre-game phase, returns nothing
+		colin = User.objects.get(username="colin")
+		event = Event.objects.get(host=colin.profile)
 		event.endVoting()		
 		self.assertEqual(event.event_state, event.AFTER_VOTING)
 
