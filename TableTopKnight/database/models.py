@@ -212,6 +212,8 @@ class Event(models.Model):
         choices=EVENT_STATES,
         default=PRE_VOTING
     )
+    def getPendingPlayers(self):
+        return self.pendingPlayers.all()
 
     def addPending(self, user):
         if isinstance(user, Profile):

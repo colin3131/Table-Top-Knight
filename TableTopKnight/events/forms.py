@@ -59,11 +59,14 @@ class EventForm(ModelForm):
         }
 
 class FriendForm(forms.Form):
-    friendName = forms.CharField(validators=[validate_user])
+    friendName = forms.CharField()
     
-def validate_user(username):
-    if not User.objects.filter(username=username).exists():
-        raise ValidationError(
-            _("User %(username)s does not exist."),
-           params={"username": username},
-        )
+    def clean_friendName(self):
+        username = self.cleaned_data['friendName']
+        if not User.objects.filter(username=username).exists():
+            raise ValidationError(
+                _("User %(username)s does not exist."),
+            params={"username": username},
+            )
+    
+

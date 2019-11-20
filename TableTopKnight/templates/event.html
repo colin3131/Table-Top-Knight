@@ -130,10 +130,9 @@
 
                 <p>Pending Players:</p>
                 <ul class="dashboard-ul">
-                    {% for user in events.pendingPlayers.user %}
+                    {% for profile in event.getPendingPlayers %}
                     <li>
-                        <p> {{ user.username }} </p>
-                        1
+                        <p> {{ profile.user.username }} </p>
                     <li>
                     {% endfor %}
                 </ul>
