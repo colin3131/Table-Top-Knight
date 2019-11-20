@@ -28,7 +28,6 @@ class ProfileTest(TestCase):
 	def test_changePassword(self):
 		# Returns True or False (based on success)
 		colin = User.objects.get(username="colin")
-		colin.profile.set_password(password="newpass123")
 		self.assertTrue(colin.profile.changePassword("testpass123", "newpass123"))
 
 	def test_addFriend(self):
@@ -41,14 +40,15 @@ class ProfileTest(TestCase):
 		# Returns True or False (based on success)
 		connor = User.objects.get(username="connor")
 		colin = User.objects.get(username="colin")
+		connor.profile.addFriend(colin.profile) # <-- Added this, tests don't always run in order
 		self.assertTrue(connor.profile.removeFriend(colin.profile))
 
 	def test_getLibrary(self):
 		# Returns a list of owned games
 		pokemonGO = Game.objects.get(gameName="pokemonGO")
 		jackson = User.objects.get(username="jackson")
-		jackson.addGame(pokemonGO)
-		self.assertEqual(pokemonGO, jackson.profile.getLibrary().get(pk=pokemonGO.ID))
+		jackson.profile.addGame(pokemonGO)
+		self.assertEqual(pokemonGO, jackson.profile.getLibrary().get(pk=pokemonGO.id))
 
 	def test_addGame(self):
 		# Returns True or False (based on success)
@@ -60,33 +60,40 @@ class ProfileTest(TestCase):
 		# Returns True or False (based on success)
 		pokemonGO = Game.objects.get(gameName="pokemonGO")
 		jackson = User.objects.get(username="jackson")
+		jackson.profile.addGame(pokemonGO)
 		self.assertTrue(jackson.profile.removeGame(pokemonGO))
 
 	def test_getNotifications(self):
 		# Returns a list of all notifications
 		connor = User.objects.get(username="connor")
-		connor.profile.addNotification("You've been added to a game!")
-		self.assertEqual(connor.profile.getNotifications(), "You've been added to a game!")
+		connor.profile.addNotification("You've been added to a game!", "gamelink") # Added link field
+		self.assertEqual(connor.profile.getNotifications().first().message, "You've been added to a game!") # Grabbed the first notification.message
 
 	def test_addNotification(self):
 		# Creates a notification for a user
 		connor = User.objects.get(username="connor")
-		self.assertTrue(connor.profile.addNotification("You've been added to a game", "https://google.com"))
+		connor.profile.addNotification("You've been added to a game", "https://google.com")
+		self.assertTrue(connor.profile.getNotifications().first().message == "You've been added to a game")
 
 	def test_removeNotification(self):
 		# Returns True or False (based on success)
 		connor = User.objects.get(username="connor")
-		self.assertTrue(connor.profile.removeNotification("You've been added to a game"))
+		connor.profile.addNotification("You've been added to a game!", "gamelink")
+		self.assertTrue(connor.profile.removeNotification(Notification.objects.get(message="You've been added to a game!"))) # Gotta remove a notification object
 
 	def test_getEventsHosting(self):
 		# Returns a list of events a user is hosting
 		jackson = User.objects.get(username="jackson")
-		self.assertTrue(jackson.profile.getEventsHosting())
+		event = Event.objects.create_event(host=jackson.profile, eventDateTime=datetime.date(year=2019, month=10, day=15), location="Posvar")
+		self.assertEqual(jackson.profile.getEventsHosting().first(), event) # Can't assert true, have to assert for equality
 
 	def test_getEventsAttending(self):
 		# Returns a list of events a user is attending
 		jackson = User.objects.get(username="jackson")
-		self.assertTrue(jackson.profile.getEventsAttending())
+		connor = User.objects.get(username="connor")
+		event = Event.objects.create_event(host=connor.profile, eventDateTime=datetime.date(year=2019, month=10, day=15), location="Posvar")
+		event.addAttendee(jackson.profile)
+		self.assertEqual(jackson.profile.getEventsAttending().first(), event)
 
 # Event Model
 class EventTest(TestCase):
@@ -109,6 +116,7 @@ class EventTest(TestCase):
 		colin = User.objects.get(username="colin")
 		connor = User.objects.get(username="connor")
 		event = Event.objects.get(host=colin.profile)
+		event.addPending(connor.profile)
 		self.assertTrue(event.removePending(connor.profile))
 
 	def test_addAttendee(self):
@@ -123,6 +131,7 @@ class EventTest(TestCase):
 		colin = User.objects.get(username="colin")
 		jackson = User.objects.get(username="jackson")
 		event = Event.objects.get(host=colin.profile)
+		event.addAttendee(jackson.profile)
 		self.assertTrue(event.removeAttendee(jackson.profile))
 
 	def test_sendInvites(self):
@@ -131,40 +140,46 @@ class EventTest(TestCase):
 		connor = User.objects.get(username="connor")
 		event = Event.objects.get(host=colin.profile)
 		event.addPending(connor.profile)
-		#event.sendInvites()
-		self.assertIn(connor.profile.Notification, connor.getNotifications())
+		event.sendInvites()
+		self.assertEqual("You've been invited to join an event hosted by colin.", connor.profile.getNotifications().first().message)
 
 	def test_canVote(self):
 		# Returns true if the event is currently in the voting phase
 		colin = User.objects.get(username="colin")
 		event = Event.objects.get(host=colin.profile)
-		self.assertFalse(event.canVote())
+		event.event_state = 'VO'
+		event.save()
+		self.assertTrue(event.canVote())
 
 	def test_canInvite(self):
 		# Returns true if the event is currently in the invite phase
 		colin = User.objects.get(username="colin")
 		event = Event.objects.get(host=colin.profile)
+		event.event_state = 'PV'
+		event.save()
 		self.assertTrue(event.canInvite())
 
 	def test_canPlay(self):
 		# Returns true if the event is currently in the pre-game phase
 		colin = User.objects.get(username="colin")
 		event = Event.objects.get(host=colin.profile)
-		self.assertFalse(event.canPlay())
+		event.event_state = 'AV'
+		event.save()
+		self.assertTrue(event.canPlay())
 
 	def test_startVoting(self):
 		# Sets the event's state to the Voting phase, returns nothing
 		colin = User.objects.get(username="colin")
 		event = Event.objects.get(host=colin.profile)
-		# event.startvoting()
-		self.assertEqual(event.event_state, event.VOTING)
+		event.startVoting()
+		self.assertEqual(event.event_state, 'VO')
 
 	def test_endVoting(self):
 		# Sets the event's state to the pre-game phase, returns nothing
 		colin = User.objects.get(username="colin")
 		event = Event.objects.get(host=colin.profile)
-		# event.endVoting()
-		self.assertEqual(event.event_state, event.AFTER_VOTING)
+		event.endVoting()
+		self.assertEqual(event.event_state, 'AV')
 
 	#def test_getFilteredGames(self):
 		# Returns a list of games that users own, filtered by the amount of players
@@ -193,4 +208,4 @@ class GameManagerTest(TestCase):
 		game = Game.objects.create_game(gameName="PokemonGo", playerMin=1, playerMax=10, genre="RPG", thmb="pkmn", desc="It's a game")
 		gameID = game.id
 		Game.objects.delete_game(gameID)
-		self.assertRaises(game.DoesNotExist, Game.objects.get(pk=game.id))
+		self.assertRaises(Game.DoesNotExist, Game.objects.get, pk=game.id)

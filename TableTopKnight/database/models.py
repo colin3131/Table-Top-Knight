@@ -52,7 +52,8 @@ class Profile(models.Model):
     # user.profile.addFriend(Profile instance)
     def addFriend(self, friend):
         if isinstance(friend, Profile):
-            self.friends.add(friend)
+            if not friend in self.getFriends():
+                self.friends.add(friend)
             return True
         else:
             return False
@@ -61,7 +62,8 @@ class Profile(models.Model):
     # user.profile.removeFriend(Profile instance)
     def removeFriend(self, friend):
         if isinstance(friend, Profile):
-            self.friends.remove(friend)
+            if friend in self.getFriends():
+                self.friends.remove(friend)
             return True
         else:
             return False
@@ -75,7 +77,8 @@ class Profile(models.Model):
     # user.profile.addGame(Game instance)
     def addGame(self, game):
         if isinstance(game, Game):
-            self.library.add(game)
+            if not game in self.getLibrary():
+                self.library.add(game)
             return True
         else:
             return False
@@ -84,7 +87,8 @@ class Profile(models.Model):
     # user.profile.removeGame(Game instance)
     def removeGame(self, game):
         if isinstance(game, Game):
-            self.library.remove(game)
+            if game in self.getLibrary():
+                self.library.remove(game)
             return True
         else:
             return False
@@ -105,7 +109,8 @@ class Profile(models.Model):
     # user.profile.removeNotification(Notification instance)
     def removeNotification(self, notification):
         if isinstance(notification, Notification):
-            self.notifications.remove(notification)
+            if notification in self.getNotifications():
+                self.notifications.filter(pk=notification.id).delete()
             return True
         else:
             return False
@@ -151,7 +156,7 @@ class GameManager(models.Manager):
         new_game.save()
         return new_game
     def delete_game(self, gameID):
-        self.get(gameID=self.id).delete()
+        self.get(pk=gameID).delete()
     def getAllGames(self):
         return self.all()
 
@@ -217,36 +222,40 @@ class Event(models.Model):
 
     def addPending(self, user):
         if isinstance(user, Profile):
-            self.pendingPlayers.add(user)
+            if not user in self.getPendingPlayers():
+                self.pendingPlayers.add(user)
             return True
         else:
             return False
 
     def removePending(self, user):
         if isinstance(user, Profile):
-            self.pendingPlayers.remove(user)
+            if user in self.getPendingPlayers():
+                self.pendingPlayers.remove(user)
             return True
         else:
             return False
 
     def addAttendee(self, user):
         if isinstance(user, Profile):
-            self.attendees.add(user)
+            if not user in self.attendees.all():
+                self.attendees.add(user)
             return True
         else:
             return False
 
     def removeAttendee(self, user):
         if isinstance(user, Profile):
-            self.attendees.remove(user)
+            if user in self.attendees.all():
+                self.attendees.remove(user)
             return True
         else:
             return False
 
     def sendInvites(self):
         for pp in self.pendingPlayers.all():
-            pp.profile.addNotification(
-                "You've been invited to join an event hosted by " + self.host.profile + ".",
+            pp.addNotification(
+                "You've been invited to join an event hosted by " + self.host.user.username + ".",
                 "insert_url_here"
             )
 
