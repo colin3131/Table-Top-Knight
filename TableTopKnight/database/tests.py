@@ -65,7 +65,7 @@ class ProfileTest(TestCase):
 	def test_getNotifications(self):
 		# Returns a list of all notifications
 		connor = User.objects.get(username="connor")
-		connor.addNotification("You've been added to a game!")
+		connor.profile.addNotification("You've been added to a game!")
 		self.assertEqual(connor.profile.getNotifications(), "You've been added to a game!")
 
 	def test_addNotification(self):
@@ -94,7 +94,7 @@ class EventTest(TestCase):
 		colin = User.objects.create_user(username="colin", email="colin@gmail.com", password="testpass123")
 		User.objects.create_user(username="connor", email="connor@gmail.com", password="testpass123")
 		User.objects.create_user(username="jackson", email="jackson@gmail.com", password="testpass123")
-		Event.objects.create_event(host=colin.profile, eventDateTime=datetime.datetime(year=2019, month=10, day=15), location="Posvar")
+		Event.objects.create_event(host=colin.profile, eventDateTime=datetime.date(year=2019, month=10, day=15), location="Posvar")
 		Game.objects.create_game(gameName="pokemonGO", playerMin="1", playerMax="10", genre="RPG", thmb="pkmn", desc="Fun for all ages!")
 
 	def test_addPending(self):
@@ -138,7 +138,7 @@ class EventTest(TestCase):
 		# Returns true if the event is currently in the voting phase
 		colin = User.objects.get(username="colin")
 		event = Event.objects.get(host=colin.profile)
-		self.assertTrue(event.canVote())
+		self.assertFalse(event.canVote())
 
 	def test_canInvite(self):
 		# Returns true if the event is currently in the invite phase
@@ -150,7 +150,7 @@ class EventTest(TestCase):
 		# Returns true if the event is currently in the pre-game phase
 		colin = User.objects.get(username="colin")
 		event = Event.objects.get(host=colin.profile)
-		self.assertTrue(event.canPlay())
+		self.assertFalse(event.canPlay())
 
 	def test_startVoting(self):
 		# Sets the event's state to the Voting phase, returns nothing
