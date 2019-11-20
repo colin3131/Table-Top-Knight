@@ -15,7 +15,7 @@ import datetime
 # Profile Model
 class ProfileTest(TestCase):
 	def test_setUp(self):
-		User.objects.create_user(username="colin", email="colin@gmail.com", password="testpass123")
+		colin = User.objects.create_user(username="colin", email="colin@gmail.com", password="testpass123")
 		User.objects.create_user(username="connor", email="connor@gmail.com", password="testpass123")
 		User.objects.create_user(username="jackson", email="jackson@gmail.com", password="testpass123")
 		Game.objects.create_game(gameName="pokemonGO", playerMin="1", playerMax="10", genre="RPG", thmb="pkmn", desc="Fun for all ages!")
