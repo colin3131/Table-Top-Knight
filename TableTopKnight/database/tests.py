@@ -14,7 +14,7 @@ import datetime
 
 # Profile Model
 class ProfileTest(TestCase):
-	def test_setUp(self):
+	def setUp(self):
 		User.objects.create_user(username="colin", email="colin@gmail.com", password="testpass123")
 		User.objects.create_user(username="connor", email="connor@gmail.com", password="testpass123")
 		User.objects.create_user(username="jackson", email="jackson@gmail.com", password="testpass123")
@@ -35,13 +35,13 @@ class ProfileTest(TestCase):
 		# Returns True or False (based on success)
 		connor = User.objects.get(username="connor")
 		colin = User.objects.get(username="colin")
-		self.assertTrue(connor.profile.addFriend(colin))
+		self.assertTrue(connor.profile.addFriend(colin.profile))
 
 	def test_removeFriend(self):
 		# Returns True or False (based on success)
 		connor = User.objects.get(username="connor")
 		colin = User.objects.get(username="colin")
-		self.assertTrue(connor.profile.removeFriend(colin))
+		self.assertTrue(connor.profile.removeFriend(colin.profile))
 
 	def test_getLibrary(self):
 		# Returns a list of owned games
@@ -66,7 +66,7 @@ class ProfileTest(TestCase):
 		# Returns a list of all notifications
 		connor = User.objects.get(username="connor")
 		connor.addNotification("You've been added to a game!")
-		self.assertTrue(connor.profile.getNotifications())
+		self.assertEqual(connor.profile.getNotifications(), "You've been added to a game!")
 
 	def test_addNotification(self):
 		# Creates a notification for a user
@@ -90,17 +90,11 @@ class ProfileTest(TestCase):
 
 # Event Model
 class EventTest(TestCase):
-	def test_setUp(self):
-		User.objects.create_user(
-			username="colin", email="colin@gmail.com", password="testpass123")
-		User.objects.create_user(
-			username="connor", email="connor@gmail.com", password="testpass123")
-		User.objects.create_user(
-			username="jackson", email="jackson@gmail.com", password="testpass123")
-
-		event = Event.objects.create_event(host=colin.profile, eventDatetime=datetime(
-			year=2019, month=10, day=15, hour=15), location="Posvar")
-
+	def setUp(self):
+		colin = User.objects.create_user(username="colin", email="colin@gmail.com", password="testpass123")
+		User.objects.create_user(username="connor", email="connor@gmail.com", password="testpass123")
+		User.objects.create_user(username="jackson", email="jackson@gmail.com", password="testpass123")
+		Event.objects.create_event(host=colin.profile, eventDateTime=datetime.datetime(year=2019, month=10, day=15, hour=15), location="Posvar")
 		Game.objects.create_game(gameName="pokemonGO", playerMin="1", playerMax="10", genre="RPG", thmb="pkmn", desc="Fun for all ages!")
 
 	def test_addPending(self):
@@ -199,4 +193,4 @@ class GameManagerTest(TestCase):
 		game = Game.objects.create_game(gameName="PokemonGo", playerMin=1, playerMax=10, genre="RPG", thmb="pkmn", desc="It's a game")
 		gameID = game.ID
 		Game.objects.delete_game(gameID)
-		self.assertRaises(DoesNotExist, Game.objects.get(pk=gameID))
+		self.assertRaises(game.DoesNotExist, Game.objects.get(pk=gameID))
