@@ -56,11 +56,11 @@
                             </table>
                         </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/editprofile">Friends List</a>
+                    <a class="dropdown-item" href="/friends">Friends List</a>
 
                     <div class="dropdown-divider"></div>
 
-                    <a class="dropdown-item" href="#">Add Friend</a>
+                    <a class="dropdown-item" href="/friends/add">Add Friend</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Remove Friend</a>
                     </div>
@@ -129,7 +129,7 @@
                 <p>Location: <small style="color: grey">{{event.location}}</small></p>
 
                 <p>Pending Players:</p>
-                <ul class="dashboard-ul">
+                <ul class="dashboard-library">
                     {% for profile in event.getPendingPlayers %}
                     <li>
                         <p> {{ profile.user.username }} </p>
@@ -138,7 +138,7 @@
                 </ul>
 
                 <p>Accepted Players:</p>
-                <ul class="dashboard-ul">
+                <ul class="dashboard-library">
                     {% for user in events.attendees.user %}
                     <li>
                         <p> {{ user.username }} </p>
