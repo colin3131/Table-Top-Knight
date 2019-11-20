@@ -101,12 +101,7 @@ class EventTest(TestCase):
 		event = Event.objects.create_event(host=colin.profile, eventDatetime=datetime(
 			year=2019, month=10, day=15, hour=15), location="Posvar")
 
-		Game.objects.create_game(gameName="pokemonGO", playerMin="1", playerMax="10",
-<<<<<<< HEAD
-		                                genre="RPG", thumbnail_url="pkmn", description="Fun for all ages!")
-=======
-		                                genre="RPG", thmb="pkmn", desc="Fun for all ages!")
->>>>>>> 7058705f7c4f575bf6230173582fbf30256a2d5d
+		Game.objects.create_game(gameName="pokemonGO", playerMin="1", playerMax="10", genre="RPG", thmb="pkmn", desc="Fun for all ages!")
 
 	def addPending(self):
 		# Adds a player to pendingPlayers, returns true/false
@@ -177,10 +172,16 @@ class EventTest(TestCase):
 		event.endVoting()		
 		self.assertEqual(event.event_state, event.AFTER_VOTING)
 
-	#def	getFilteredGames(self):
+	def	getFilteredGames(self):
+		game1 = Game.objects.create_game(gameName="PokemonGo", playerMin=1, playerMax=10, genre="RPG", thmb="pkmn", desc="It's a game")
+		game2 = Game.objects.create_game(gameName="The Legend of Zelda", playerMin=1, playerMax=1, genre="FirstPerson", thmb="zelda", desc="It's a game")
+		game3 = Game.objects.create_game(gameName="Call of Duty", playerMin=1, playerMax=8, genre="FPS", thmb="cod", desc="It's a game")
+		gameLibrary = [game1, game2, game3]
+		correctOrder = [game2, game3, game1]
+		self.assertTrue(gameLibrary[correctOrder])
 		# Returns a list of games that users own, filtered by the amount of players
 		
-	#def getRankedGames(self):
+	def getRankedGames(self):
 		# Returns a list of games that have been chosen based on the voting phase
 # Game Model
 class GameManagerTest(TestCase):
