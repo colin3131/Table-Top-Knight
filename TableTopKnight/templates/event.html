@@ -122,13 +122,33 @@
 
                 <h1> Event Details</h1>
                 <p>
-                Host: <small style="color: grey">{{event.host.user}}</small><br>
+                Host: <small style="color: grey">{{event.host.user}}</small></p>
 
-                Date/Time: <small style="color: grey">{{event.eventDateTime}}</small><br>
+                <p>Date/Time: <small style="color: grey">{{event.eventDateTime}}</small></p>
 
-                Location: <small style="color: grey">{{event.location}}</small><br>
+                <p>Location: <small style="color: grey">{{event.location}}</small></p>
 
-                Game Options:
+                <p>Pending Players:</p>
+                <ul class="dashboard-ul">
+                    {% for user in events.pendingPlayers.user %}
+                    <li>
+                        <p> {{ user.username }} </p>
+                        1
+                    <li>
+                    {% endfor %}
+                </ul>
+
+                <p>Accepted Players:</p>
+                <ul class="dashboard-ul">
+                    {% for user in events.attendees.user %}
+                    <li>
+                        <p> {{ user.username }} </p>
+                        1
+                    <li>
+                    {% endfor %}
+                </ul>
+
+                <p>Game Options:
                 {% for game in events.getFilteredGames %}
                 <li class="media">
                 <img src="{{ game.thumbnail_url }}" class="mr-3" alt="Image of {{ game.gameName }}.">
