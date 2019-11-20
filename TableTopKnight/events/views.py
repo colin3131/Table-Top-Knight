@@ -70,7 +70,7 @@ def newevent(request):
             event.host = request.user.profile
             event.event_state='PV'
             event.save()
-            event.save_m2m()
+            form.save_m2m()
             return redirect('event', event.id)
     else:
         form = EventForm(userID=request.user.id)
