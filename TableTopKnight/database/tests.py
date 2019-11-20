@@ -1,14 +1,14 @@
 from django.test import TestCase
 from django.db import models
 from django.contrib.auth.models import User
-import User as UserClass
+#import User as UserClass
 from database.models import Profile, Game, Event, Notification, Vote
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from .forms import SignUpForm, VoteForm, EventForm
+#from .forms import SignUpForm, VoteForm, EventForm
 from database.models import Vote, Event, Game
 import datetime
 
@@ -18,7 +18,7 @@ class ProfileTest(TestCase):
 		User.objects.create_user(username="colin", email="colin@gmail.com", password="testpass123")
 		User.objects.create_user(username="connor", email="connor@gmail.com", password="testpass123")
 		User.objects.create_user(username="jackson", email="jackson@gmail.com", password="testpass123")
-		GameManager.objects.create_game(gameName="pokemonGO", playerMin="1", playerMax="10", genre="RPG", thumbnail_url="pkmn", description="Fun for all ages!")
+		Game.objects.create_game(gameName="pokemonGO", playerMin="1", playerMax="10", genre="RPG", thmb="pkmn", desc="Fun for all ages!")
 
 	def verifyLogin(self): 	
 		# Returns True or False
@@ -43,12 +43,12 @@ class ProfileTest(TestCase):
 		colin = User.objects.get(username="colin", email="colin@gmail.com", password="testpass123")
 		self.assertTrue(connor.profile.removeFriend(colin))
 	
-	def getLibrary():
+	def getLibrary(self):
 		# Returns a list of owned games
 		pokemonGO = Game.objects.get(gameName="pokemonGO")
 		jackson = User.objects.get(username="jackson", email="jackson@gmail.com", password="testpass123")
 		jackson.addGame(pokemonGO)
-		assertTrue(jackson.getLibrary())
+		self.assertEqual(pokemonGO, jackson.getLibrary().get(pk=pokemonGO.ID))
 
 	def addGame(self):
 		# Returns True or False (based on success)
@@ -62,11 +62,11 @@ class ProfileTest(TestCase):
 		jackson = User.objects.get(username="jackson", email="jackson@gmail.com", password="testpass123")
 		self.assertTrue(jackson.removeGame(pokemonGO))
 
-	def getNotifications():
+	def getNotifications(self):
 		# Returns a list of all notifications
 		connor = User.objects.get(username="connor", email="connor@gmail.com", password="testpass123")
 		connor.addNotification("You've been added to a game!")
-		assertTrue(connor.getNotifications())
+		self.assertTrue(connor.getNotifications())
 
 	def addNotification(self):
 		# Creates a notification for a user
@@ -78,15 +78,15 @@ class ProfileTest(TestCase):
 		connor = User.objects.get(username="connor", email="connor@gmail.com", password="testpass123")
 		self.assertTrue(connor.removeNotification("You've been added to a game"))
 
-	def getEventsHosting():
+	def getEventsHosting(self):
 		# Returns a list of events a user is hosting
 		jackson = User.objects.get(username="jackson", email="jackson@gmail.com", password="testpass123")
-		assertTrue(jackson.getEventsHosting())
+		self.assertTrue(jackson.getEventsHosting())
 
-	def getEventsAttending():
+	def getEventsAttending(self):
 		# Returns a list of events a user is attending
 		jackson = User.objects.get(username="jackson", email="jackson@gmail.com", password="testpass123")
-		assertTrue(jackson.getEventsAttending())
+		self.assertTrue(jackson.getEventsAttending())
 
 # Event Model
 class EventTest(TestCase):
@@ -101,8 +101,8 @@ class EventTest(TestCase):
 		event = Event.objects.create_event(host=colin.profile, eventDatetime=datetime(
 			year=2019, month=10, day=15, hour=15), location="Posvar")
 
-		GameManager.objects.create_game(gameName="pokemonGO", playerMin="1", playerMax="10",
-		                                genre="RPG", thumbnail_url="pkmn", description="Fun for all ages!")
+		Game.objects.create_game(gameName="pokemonGO", playerMin="1", playerMax="10",
+		                                genre="RPG", thmb="pkmn", desc="Fun for all ages!")
 
 	def addPending(self):
 		# Adds a player to pendingPlayers, returns true/false
@@ -120,56 +120,53 @@ class EventTest(TestCase):
 		# Removes a user from the attendees, returns true/false
 		self.assertTrue(event.removeAttendee(jackson.profile))
 
-	def sendInvites():
+	def sendInvites(self):
 		# Invites all of the players that are currently pending
 		event.addPending(connor.profile)
 		event.sendInvites()
 		self.assertIn(connor.profile.Notification, connor.getNotifications())
 
-	def canVote():
+	def canVote(self):
 		# Returns true if the event is currently in the voting phase
 		self.assertTrue(event.canVote())
 
-	def canInvite():
+	def canInvite(self):
 		# Returns true if the event is currently in the invite phase
 		self.assertTrue(event.canInvite())
 
-	def canPlay():
+	def canPlay(self):
 		# Returns true if the event is currently in the pre-game phase
 		self.assertTrue(event.canPlay())
 
-	def startVoting():
+	def startVoting(self):
 		# Sets the event's state to the Voting phase, returns nothing
 		event.startvoting()
 		self.assertEqual(event.event_state, event.VOTING)
 		
-	def endVoting():
+	def endVoting(self):
 		# Sets the event's state to the pre-game phase, returns nothing
 		event.endVoting()		
 		self.assertEqual(event.event_state, event.AFTER_VOTING)
 
-	def	getFilteredGames():
+	#def	getFilteredGames(self):
 		# Returns a list of games that users own, filtered by the amount of players
 		
-
-	def getRankedGames():
+	#def getRankedGames(self):
 		# Returns a list of games that have been chosen based on the voting phase
-
-
 # Game Model
 class GameManagerTest(TestCase):
 	# Adds a game into the game database
-	def create_game():
-		game = Game.objects.create_game(gameName="PokemonGo", playerMin=1, playerMax=10, genre="RPG", thumbnail_url="pkmn", description="It's a game")
-		assertTrue(game.gameName == "PokemonGo")
-		assertTrue(game.gameMin == 1)
-		assertTrue(game.gameMax == 10)
-		assertTrue(game.genre == "RPG")
-		assertTrue(game.thumbnail_url == "pkmn")
-		assertTrue(game.description == "It's a game")
-	def delete_game():
+	def create_game(self):
+		game = Game.objects.create_game(gameName="PokemonGo", playerMin=1, playerMax=10, genre="RPG", thmb="pkmn", desc="It's a game")
+		self.assertTrue(game.gameName == "PokemonGo")
+		self.assertTrue(game.gameMin == 1)
+		self.assertTrue(game.gameMax == 10)
+		self.assertTrue(game.genre == "RPG")
+		self.assertTrue(game.thumbnail_url == "pkmn")
+		self.assertTrue(game.description == "It's a game")
+	def delete_game(self):
 		# Removes a game from the game database
-		game = Game.objects.create_game(gameName="PokemonGo", playerMin=1, playerMax=10, genre="RPG", thumbnail_url="pkmn", description="It's a game")
+		game = Game.objects.create_game(gameName="PokemonGo", playerMin=1, playerMax=10, genre="RPG", thmb="pkmn", desc="It's a game")
 		gameID = game.ID
 		Game.objects.delete_game(gameID)
-		assertRaises(DoesNotExist, Game.objects.get(pk=gameID))
+		self.assertRaises(DoesNotExist, Game.objects.get(pk=gameID))
