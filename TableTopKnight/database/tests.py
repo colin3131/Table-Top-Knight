@@ -34,13 +34,13 @@ class ProfileTest(TestCase):
 	def addFriend(self):
 		# Returns True or False (based on success)
 		connor = User.objects.get(username="connor")
-		colin = User.objects.get(username="colin", email="colin@gmail.com", password="testpass123")
+		colin = User.objects.get(username="colin")
 		self.assertTrue(connor.profile.addFriend(colin))
 
 	def removeFriend(self):
 		# Returns True or False (based on success)
 		connor = User.objects.get(username="connor")
-		colin = User.objects.get(username="colin", email="colin@gmail.com", password="testpass123")
+		colin = User.objects.get(username="colin")
 		self.assertTrue(connor.profile.removeFriend(colin))
 	
 	def getLibrary(self):
@@ -48,45 +48,45 @@ class ProfileTest(TestCase):
 		pokemonGO = Game.objects.get(gameName="pokemonGO")
 		jackson = User.objects.get(username="jackson")
 		jackson.addGame(pokemonGO)
-		self.assertEqual(pokemonGO, jackson.getLibrary().get(pk=pokemonGO.ID))
+		self.assertEqual(pokemonGO, jackson.profile.getLibrary().get(pk=pokemonGO.ID))
 
 	def addGame(self):
 		# Returns True or False (based on success)
 		pokemonGO = Game.objects.get(gameName="pokemonGO")
 		jackson = User.objects.get(username="jackson")
-		self.assertTrue(jackson.addGame(pokemonGO))
+		self.assertTrue(jackson.profile.addGame(pokemonGO))
 
 	def removeGame(self):
 		# Returns True or False (based on success)
 		pokemonGO = Game.objects.get(gameName="pokemonGO")
 		jackson = User.objects.get(username="jackson")
-		self.assertTrue(jackson.removeGame(pokemonGO))
+		self.assertTrue(jackson.profile.removeGame(pokemonGO))
 
 	def getNotifications(self):
 		# Returns a list of all notifications
 		connor = User.objects.get(username="connor")
 		connor.addNotification("You've been added to a game!")
-		self.assertTrue(connor.getNotifications())
+		self.assertTrue(connor.profile.getNotifications())
 
 	def addNotification(self):
 		# Creates a notification for a user
 		connor = User.objects.get(username="connor")
-		self.assertTrue(connor.addNotification("You've been added to a game", "https://google.com"))
+		self.assertTrue(connor.profile.addNotification("You've been added to a game", "https://google.com"))
 
 	def removeNotification(self):
 		# Returns True or False (based on success)
 		connor = User.objects.get(username="connor")
-		self.assertTrue(connor.removeNotification("You've been added to a game"))
+		self.assertTrue(connor.profile.removeNotification("You've been added to a game"))
 
 	def getEventsHosting(self):
 		# Returns a list of events a user is hosting
 		jackson = User.objects.get(username="jackson")
-		self.assertTrue(jackson.getEventsHosting())
+		self.assertTrue(jackson.profile.getEventsHosting())
 
 	def getEventsAttending(self):
 		# Returns a list of events a user is attending
 		jackson = User.objects.get(username="jackson")
-		self.assertTrue(jackson.getEventsAttending())
+		self.assertTrue(jackson.profile.getEventsAttending())
 
 # Event Model
 class EventTest(TestCase):
@@ -151,7 +151,7 @@ class EventTest(TestCase):
 		colin = User.objects.get(username="colin")
 		event = Event.objects.get(host=colin.profile)
 		self.assertTrue(event.canInvite())
-
+linter
 	def canPlay(self):
 		# Returns true if the event is currently in the pre-game phase
 		colin = User.objects.get(username="colin")
@@ -179,7 +179,7 @@ class EventTest(TestCase):
 		game3 = Game.objects.create_game(gameName="Call of Duty", playerMin=1, playerMax=8, genre="FPS", thmb="cod", desc="It's a game")
 		gameLibrary = [game1, game2, game3]
 		correctOrder = [game2, game3, game1]
-		self.assertTrue(gameLibrary[correctOrder])
+		self.assertTrue(getFilteredGames(gameLibrary[correctOrder]))
 		
 	def getRankedGames(self):
 		# Returns a list of games that have been chosen based on the voting phase
