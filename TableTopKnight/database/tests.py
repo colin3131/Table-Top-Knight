@@ -34,7 +34,7 @@ class ProfileTest(TestCase):
 		# Returns True or False (based on success)
 		connor = User.objects.get(username="connor")
 		colin = User.objects.get(username="colin")
-		self.assertTrue(connor.profile.addFriend(colin))
+		self.assertTrue(connor.profile.addFriend(colin.profile))
 
 	def test_removeFriend(self):
 		# Returns True or False (based on success)
