@@ -82,7 +82,7 @@ def logout_view(request):
     return redirect('login')
 
 @login_required
-def addfriend(request, userID):
+def addfriend(request):
     if request.method == 'POST':
         form = FriendForm(data=request.POST)
         if form.is_valid():
