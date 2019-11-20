@@ -28,7 +28,7 @@ class Profile(models.Model):
 
     # Verifies the login of an individual user
     def verifyLogin(self, _username, _password):
-        _user = authenticate(_username, _password)
+        _user = authenticate(username=_username, password=_password)
         if _user is not None:
             return True
         else:
@@ -36,7 +36,7 @@ class Profile(models.Model):
 
     # Changes the password of an individual user supplied old and new pass
     def changePassword(self, oldPass, newPass):
-        _user = authenticate(self.user.username, oldPass)
+        _user = authenticate(username=self.user.username, password=oldPass)
         if _user is not None:
             self.user.set_password(newPass)
             return True
