@@ -14,7 +14,7 @@ import datetime
 
 # Profile Model
 class ProfileTest(TestCase):
-	def setUp(self):
+	def test_setUp(self):
 		User.objects.create_user(username="colin", email="colin@gmail.com", password="testpass123")
 		User.objects.create_user(username="connor", email="connor@gmail.com", password="testpass123")
 		User.objects.create_user(username="jackson", email="jackson@gmail.com", password="testpass123")
@@ -90,7 +90,7 @@ class ProfileTest(TestCase):
 
 # Event Model
 class EventTest(TestCase):
-	def setUp(self):
+	def test_setUp(self):
 		User.objects.create_user(
 			username="colin", email="colin@gmail.com", password="testpass123")
 		User.objects.create_user(
