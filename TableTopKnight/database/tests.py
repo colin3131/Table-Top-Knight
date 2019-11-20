@@ -15,6 +15,7 @@ import datetime
 # Profile Model
 class ProfileTest(TestCase):
 	def test_setUp(self):
+		<QuerySet [ < User: "colin" > ] >
 		User.objects.create_user(username="colin", email="colin@gmail.com", password="testpass123")
 		User.objects.create_user(username="connor", email="connor@gmail.com", password="testpass123")
 		User.objects.create_user(username="jackson", email="jackson@gmail.com", password="testpass123")
@@ -188,8 +189,8 @@ class GameManagerTest(TestCase):
 	def test_create_game(self):
 		game = Game.objects.create_game(gameName="PokemonGo", playerMin=1, playerMax=10, genre="RPG", thmb="pkmn", desc="It's a game")
 		self.assertTrue(game.gameName == "PokemonGo")
-		#self.assertTrue(game.gameMin == 1)
-		self.assertTrue(game.gameMax == 10)
+		self.assertTrue(game.playerMin == 1)
+		self.assertTrue(game.playerMax == 10)
 		self.assertTrue(game.genre == "RPG")
 		self.assertTrue(game.thumbnail_url == "pkmn")
 		self.assertTrue(game.description == "It's a game")
