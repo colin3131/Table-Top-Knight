@@ -19,6 +19,7 @@ urlpatterns = [
     path('events/createevent/', views.newevent, name='newevent'),
     path('events/<int:eventID>/', views.myevent, name='myevent'),
     path('events/<int:eventID>/vote/', views.vote, name='vote'),
+    path('events/<int:eventID>/remove/', views.removeevent, name='removeevent'),
     path('friends/', views.friends, name='friends'),
     path('friends/<int:userID>/', views.friend, name='friend'),
     path('friends/add/', views.addfriend, name='addfriend'),

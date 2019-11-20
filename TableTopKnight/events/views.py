@@ -191,6 +191,11 @@ def removegame(request, gameID):
     return redirect('game', gameID)
 
 @login_required
+def removeevent(request, eventID):
+    Event.objects.remove_event(eventID)
+    return redirect('myevents')
+
+@login_required
 def allgames(request):
     return render(request, 'games.html', {"games": Game.objects.getAllGames()})
 

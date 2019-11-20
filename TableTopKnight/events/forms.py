@@ -66,7 +66,7 @@ class FriendForm(forms.Form):
         if not User.objects.filter(username=username).exists():
             raise ValidationError(
                 _("User %(username)s does not exist."),
-            params={"username": username},
+                params={"username": username},
             )
     
 
