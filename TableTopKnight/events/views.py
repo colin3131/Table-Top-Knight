@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from .forms import SignUpForm, VoteForm, EventForm
+from .forms import SignUpForm, VoteForm, EventForm, FriendForm
 from database.models import Vote, Event, Game
 
 # TODO
@@ -80,6 +80,19 @@ def newevent(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+@login_required
+def addfriend(request, userID):
+    if request.method == 'POST':
+        form = FriendForm(data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('friendName')
+            request.user.profile.addFriend(User.objects.get(username=username).profile)
+            return redirect('friends')
+    else:
+        form = FriendForm()
+    return render(request, 'addfriend.html', {"form": form})
+
 
 # VOTING PAGE
 @login_required
@@ -166,11 +179,6 @@ def friends(request):
 @login_required
 def friend(request, userID):
     return render(request, 'friend.html', {"friend": User.objects.get(pk=userID)})
-
-@login_required
-def addfriend(request, userID):
-    request.user.profile.addFriend(User.objects.get(pk=userID).profile)
-    return redirect('friends')
 
 @login_required # called via /games/<id>/add
 def addgame(request, gameID):

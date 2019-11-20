@@ -21,7 +21,7 @@ urlpatterns = [
     path('events/<int:eventID>/vote/', views.vote, name='vote'),
     path('friends/', views.friends, name='friends'),
     path('friends/<int:userID>/', views.friend, name='friend'),
-    path('friends/<int:userID>/add', views.addfriend, name='addfriend'),
+    path('friends/add/', views.addfriend, name='addfriend'),
 ]
 
 handler404 = views.handler404
