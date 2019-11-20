@@ -181,8 +181,6 @@ class EventTest(TestCase):
 		correctOrder = [game2, game3, game1]
 		self.assertTrue(getFilteredGames(gameLibrary[correctOrder]))
 		
-	def getRankedGames(self):
-		# Returns a list of games that have been chosen based on the voting phase
 
 # Game Model
 class GameManagerTest(TestCase):
