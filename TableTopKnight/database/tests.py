@@ -22,7 +22,7 @@ class ProfileTest(TestCase):
 
 	def test_verifyLogin(self): 	
 		# Returns True or False
-		colin = User.objects.get(pk=1)
+		colin = User.objects.get(username = "colin")
 		self.assertTrue(colin.profile.verifyLogin("colin", "testpass123"))
 
 	def test_changePassword(self):
