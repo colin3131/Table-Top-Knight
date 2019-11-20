@@ -124,7 +124,7 @@ class EventTest(TestCase):
 		# Invites all of the players that are currently pending
 		event.addPending(connor.profile)
 		event.sendInvites()
-		self.assertIn()
+		self.assertIn(connor.profile.Notification, connor.getNotifications())
 
 	def canVote():
 		# Returns true if the event is currently in the voting phase
@@ -140,16 +140,21 @@ class EventTest(TestCase):
 
 	def startVoting():
 		# Sets the event's state to the Voting phase, returns nothing
-		self.assertTrue()
-
+		event.startvoting()
+		self.assertEqual(event.event_state, event.VOTING)
+		
 	def endVoting():
 		# Sets the event's state to the pre-game phase, returns nothing
-		
+		event.endVoting()		
+		self.assertEqual(event.event_state, event.AFTER_VOTING)
+
 	def	getFilteredGames():
 		# Returns a list of games that users own, filtered by the amount of players
+		
 
 	def getRankedGames():
 		# Returns a list of games that have been chosen based on the voting phase
+
 
 # Game Model
 class GameManagerTest(TestCase):
