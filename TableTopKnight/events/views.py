@@ -70,7 +70,7 @@ def newevent(request):
             event.host = request.user.profile
             event.event_state='PV'
             event.save()
-            return redirect('myevents')
+            return redirect('events')
     else:
         form = EventForm()
     return render(request, 'createevent.html', {'form': form})
@@ -149,7 +149,7 @@ def myevent(request, eventID):
 # Other Data Needed:
 @login_required
 def myevents(request):
-    return render(request, 'myevents.html', {
+    return render(request, 'events.html', {
         "events_hosting": request.user.profile.getEventsHosting(),
         "events_attending": request.user.profile.getEventsAttending(),
     })
