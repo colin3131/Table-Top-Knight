@@ -68,5 +68,22 @@ class FriendForm(forms.Form):
                 _("User %(username)s does not exist."),
                 params={"username": username},
             )
+        thisuser = User.objects.get(pk=self.userid)
+        thatuser = User.objects.get(username=username)
+        if(thatuser.profile in thisuser.profile.getFriends()):
+            raise ValidationError(
+                _("User %(username)s is already your friend."),
+                params={"username": username},
+            )
+        if(thatuser.id == thisuser.id):
+            raise ValidationError(
+                _("You can't add yourself."),
+                params={"username": username},
+            )
+        return username
+
+    def __init__(self, *args, **kwargs):
+        self.userid = kwargs.pop('userid', None)
+        super(FriendForm, self).__init__(*args, **kwargs)
     
 

@@ -84,13 +84,14 @@ def logout_view(request):
 @login_required
 def addfriend(request):
     if request.method == 'POST':
-        form = FriendForm(data=request.POST)
+        form = FriendForm(data=request.POST, userid=request.user.id)
         if form.is_valid():
-            username = form.cleaned_data.get('friendName')
-            request.user.profile.addFriend(User.objects.get(username=username).profile)
+            usr = form.cleaned_data.get('friendName')
+            newfriend = User.objects.get(username=usr)
+            request.user.profile.addFriend(newfriend.profile)
             return redirect('friends')
     else:
-        form = FriendForm()
+        form = FriendForm(userid=request.user.id)
     return render(request, 'addfriend.html', {"form": form})
 
 
