@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm
 from database.models import Vote, Event
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
@@ -56,3 +57,13 @@ class EventForm(ModelForm):
         help_texts = {
             'eventDateTime': _("MM/DD/YYYY HH:MI")
         }
+
+class FriendForm(forms.Form):
+    friendName = forms.CharField(validators=[validate_user])
+    
+def validate_user(username):
+    if not User.objects.filter(username=username).exists():
+        raise ValidationError(
+            _("User %(username)s does not exist."),
+           params={"username": username},
+        )
