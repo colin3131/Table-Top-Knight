@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.db import models
 from django.contrib.auth.models import User
-import User as UserClass
+#import User as UserClass
 from database.models import Profile, Game, Event, Notification, Vote
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
