@@ -1,28 +1,28 @@
 from django.test import TestCase
 from django.db import models
 from django.contrib.auth.models import User
-#import User as UserClass
+import User as UserClass
 from database.models import Profile, Game, Event, Notification, Vote
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-#from .forms import SignUpForm, VoteForm, EventForm
+from .forms import SignUpForm, VoteForm, EventForm
 from database.models import Vote, Event, Game
 import datetime
 
 # Profile Model
 class ProfileTest(TestCase):
 	def test_setUp(self):
-		User.objects.create_user(username="colin", email="colin@gmail.com", password="testpass123")
+		Profile.objects.create_user(username="colin", email="colin@gmail.com", password="testpass123")
 		User.objects.create_user(username="connor", email="connor@gmail.com", password="testpass123")
 		User.objects.create_user(username="jackson", email="jackson@gmail.com", password="testpass123")
 		Game.objects.create_game(gameName="pokemonGO", playerMin="1", playerMax="10", genre="RPG", thmb="pkmn", desc="Fun for all ages!")
 
 	def test_verifyLogin(self): 	
 		# Returns True or False
-		colin = User.objects.get(username="colin")
+		colin = Profile.objects.get(username="colin")
 		self.assertTrue(colin.profile.verifyLogin("colin", "testpass123"))
 
 	def test_changePassword(self):
