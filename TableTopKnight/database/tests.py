@@ -91,16 +91,10 @@ class ProfileTest(TestCase):
 # Event Model
 class EventTest(TestCase):
 	def setUp(self):
-		User.objects.create_user(
-			username="colin", email="colin@gmail.com", password="testpass123")
-		User.objects.create_user(
-			username="connor", email="connor@gmail.com", password="testpass123")
-		User.objects.create_user(
-			username="jackson", email="jackson@gmail.com", password="testpass123")
-
-		event = Event.objects.create_event(host=colin.profile, eventDatetime=datetime(
-			year=2019, month=10, day=15, hour=15), location="Posvar")
-
+		colin = User.objects.create_user(username="colin", email="colin@gmail.com", password="testpass123")
+		User.objects.create_user(username="connor", email="connor@gmail.com", password="testpass123")
+		User.objects.create_user(username="jackson", email="jackson@gmail.com", password="testpass123")
+		Event.objects.create_event(host=colin.profile, eventDateTime=datetime.datetime(year=2019, month=10, day=15, hour=15), location="Posvar")
 		Game.objects.create_game(gameName="pokemonGO", playerMin="1", playerMax="10", genre="RPG", thmb="pkmn", desc="Fun for all ages!")
 
 	def test_addPending(self):
@@ -199,4 +193,4 @@ class GameManagerTest(TestCase):
 		game = Game.objects.create_game(gameName="PokemonGo", playerMin=1, playerMax=10, genre="RPG", thmb="pkmn", desc="It's a game")
 		gameID = game.ID
 		Game.objects.delete_game(gameID)
-		self.assertRaises(DoesNotExist, Game.objects.get(pk=gameID))
+		self.assertRaises(game.DoesNotExist, Game.objects.get(pk=gameID))
