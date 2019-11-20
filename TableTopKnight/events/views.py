@@ -71,7 +71,7 @@ def newevent(request):
             event.event_state='PV'
             event.save()
             event.save_m2m()
-            return redirect('myevent', event.id)
+            return redirect('events', event.id)
     else:
         form = EventForm(userID=request.user.id)
     return render(request, 'createevent.html', {'form': form})
@@ -150,7 +150,7 @@ def myevent(request, eventID):
 # Other Data Needed:
 @login_required
 def myevents(request):
-    return render(request, 'myevents.html', {
+    return render(request, 'events.html', {
         "events_hosting": request.user.profile.getEventsHosting(),
         "events_attending": request.user.profile.getEventsAttending(),
     })
