@@ -71,7 +71,7 @@ def newevent(request):
             event.event_state='PV'
             event.save()
             form.save_m2m()
-            return redirect('event', event.id)
+            return redirect('myevent', event.id)
     else:
         form = EventForm(userID=request.user.id)
     return render(request, 'createevent.html', {'form': form})

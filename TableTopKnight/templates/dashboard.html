@@ -39,7 +39,7 @@
                         <a class="dropdown-item" href="/editprofile">Edit Profile</a>
 
                         <div class="dash-divider dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Log Out</a>
+                        <a class="dropdown-item" href="/logout">Log Out</a>
                         </div>
                     </li>
 
@@ -136,7 +136,7 @@
                                 <h3>Next Steps:</h3>
                                 <ul>
                                     <li><a href="/addgame">Add Games To Your Library</a></li>
-                                    <li><a href="/events/createevent">Create An Event</a></li>
+                                    <li><a href="/createevent">Create An Event</a></li>
                                     <li><a href="/addfriend">Add Friends</a></li>
 
                                 </ul>
@@ -199,7 +199,36 @@
                         <br/>
                         <h3> Your Upcoming Events: </h3>
                         <div class="dropdown-divider"></div>
+                        <ul class="dashboard-library">
+                            {% for event in user.profile.getEventsHosting|slice:"0:3" %}
 
+                                <li >
+
+                                <div class="">
+                                  <a href="/events/{{ event.id }}">
+                                  <p class="mt-0 mb-1">{{ event.eventDateTime }}</p>
+                                  <p class="mt-0 mb-1">{{ event.location }}</p>
+                                  </a>
+
+                                </div>
+                                </li>
+
+                            {% endfor %}
+                            {% for event in user.profile.getEventsAttending|slice:"0:2" %}
+
+                                <li >
+
+                                <div class="">
+                                <a href="/events/{{ event.id }}">
+                                <p class="mt-0 mb-1">{{ event.eventDateTime }}</p>
+                                <p class="mt-0 mb-1">{{ event.location }}</p>
+                                  </a>
+
+                                </div>
+                                </li>
+
+                            {% endfor %}
+                        </ul>
                     </div>
 
 </div>
