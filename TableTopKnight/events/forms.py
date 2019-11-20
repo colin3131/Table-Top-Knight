@@ -41,11 +41,18 @@ class VoteForm(forms.Form):
         )
 
 class EventForm(ModelForm):
+    def __init__(self, userID, *args, **kwargs):
+        super(EventForm, self).__init__(*args, **kwargs)
+        self.fields['pendingPlayers'].queryset = User.objects.get(pk=userID).profile.getFriends()
     class Meta:
         model = Event
-        fields = ('eventDateTime', 'location')
-        exclude = ['host', 'attendees', 'pendingPlayers', 'eventGames', 'event_state']
+        fields = ('eventDateTime', 'location', 'pendingPlayers')
+        exclude = ['host', 'attendees', 'eventGames', 'event_state']
         labels = {
             'eventDateTime': _("Event's Date & Time"),
-            'location': _("Event's Location")
+            'location': _("Event's Location"),
+            'pendingPlayers': _("Add Friends")
+        }
+        help_texts = {
+            'eventDateTime': _("MM/DD/YYYY HH:MI")
         }

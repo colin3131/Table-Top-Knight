@@ -64,15 +64,16 @@ def signup(request):
 @login_required
 def newevent(request):
     if request.method == 'POST':
-        form = EventForm(data=request.POST)
+        form = EventForm(data=request.POST, userID=request.user.id)
         if form.is_valid():
             event = form.save(commit=False)
             event.host = request.user.profile
             event.event_state='PV'
             event.save()
-            return redirect('myevents')
+            event.save_m2m()
+            return redirect('myevent', event.id)
     else:
-        form = EventForm()
+        form = EventForm(userID=request.user.id)
     return render(request, 'createevent.html', {'form': form})
 
 @login_required

@@ -150,7 +150,7 @@ class EventTest(TestCase):
 
 	def getRankedGames():
 		# Returns a list of games that have been chosen based on the voting phase
-
+			
 # Game Model
 class GameManagerTest(TestCase):
 	# Adds a game into the game database
