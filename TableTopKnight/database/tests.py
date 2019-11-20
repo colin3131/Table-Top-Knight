@@ -151,7 +151,7 @@ class EventTest(TestCase):
 		colin = User.objects.get(username="colin")
 		event = Event.objects.get(host=colin.profile)
 		self.assertTrue(event.canInvite())
-linter
+
 	def canPlay(self):
 		# Returns true if the event is currently in the pre-game phase
 		colin = User.objects.get(username="colin")
@@ -183,6 +183,7 @@ linter
 		
 	def getRankedGames(self):
 		# Returns a list of games that have been chosen based on the voting phase
+
 # Game Model
 class GameManagerTest(TestCase):
 	# Adds a game into the game database
