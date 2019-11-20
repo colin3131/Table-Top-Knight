@@ -139,7 +139,7 @@
 
                 <p>Accepted Players:</p>
                 <ul class="dashboard-library">
-                    {% for user in events.attendees.user %}
+                    {% for user in event.attendees.user %}
                     <li>
                         <p> {{ user.username }} </p>
                         1
@@ -148,7 +148,7 @@
                 </ul>
 
                 <p>Game Options:
-                {% for game in events.getFilteredGames %}
+                {% for game in event.getFilteredGames %}
                 <li class="media">
                 <img src="{{ game.thumbnail_url }}" class="mr-3" alt="Image of {{ game.gameName }}.">
                 <div class="media-body">
