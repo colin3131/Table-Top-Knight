@@ -90,7 +90,7 @@ class ProfileTest(TestCase):
 
 # Event Model
 class EventTest(TestCase):
-	def test_setUp(self):
+	def setUp(self):
 		User.objects.create_user(
 			username="colin", email="colin@gmail.com", password="testpass123")
 		User.objects.create_user(
