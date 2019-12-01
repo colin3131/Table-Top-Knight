@@ -87,8 +87,8 @@ def addfriend(request):
         form = FriendForm(data=request.POST, userid=request.user.id)
         if form.is_valid():
             usr = form.cleaned_data.get('friendName')
-            newfriend = User.objects.get(username=usr)
-            request.user.profile.addFriend(newfriend.profile)
+            newfriend = User.objects.get(username=usr).profile
+            request.user.profile.sendFriendRequest(newfriend)
             return redirect('friends')
     else:
         form = FriendForm(userid=request.user.id)
@@ -190,6 +190,22 @@ def addgame(request, gameID):
 def removegame(request, gameID):
     request.user.profile.removeGame(Game.objects.get(pk=gameID))
     return redirect('game', gameID)
+
+def acceptfriend(request, userID):
+    request.user.profile.addFriend(userID)
+    request.user.profile.removeNotification(
+        request.user.profile.getNotifications().get(link="/friends/"+userID+"/request")
+    )
+    return redirect('friends')
+
+def rejectfriend(request, userID):
+    request.user.profile.removeNotification(
+        request.user.profile.getNotifications().get(link="/friends/"+userID+"/request")
+    )
+    return redirect('friends')
+
+def friendrequest(request, userID):
+    return render(request, "friendrequest.html", {"friend": User.objects.get(pk=userID)})
 
 @login_required
 def removeevent(request, eventID):
