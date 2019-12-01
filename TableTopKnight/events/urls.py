@@ -22,7 +22,10 @@ urlpatterns = [
     path('events/<int:eventID>/remove/', views.removeevent, name='removeevent'),
     path('friends/', views.friends, name='friends'),
     path('friends/<int:userID>/', views.friend, name='friend'),
-    path('friends/add/', views.addfriend, name='addfriend'),
+    #path('friends/add/', views.addfriend, name='addfriend'),
+    path('friends/<int:userID>/accept', views.acceptfriend, name='acceptfriend'),
+    path('friends/<int:userID>/reject', views.rejectfriend, name='rejectfriend'),
+    path('friends/<int:userID>/request', views.friendrequest, name='friendrequest'),
 ]
 
 handler404 = views.handler404

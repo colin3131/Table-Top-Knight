@@ -58,6 +58,17 @@ class Profile(models.Model):
         else:
             return False
 
+    def sendFriendRequest(self, friend):
+        if isinstance(friend, Profile):
+            if not friend in self.getFriends():
+                friend.addNotification(
+                    message=""+self.user.username+" sent you a friend request.",
+                    link="/friends/"+self.user.id+"/request",
+                )
+            return True
+        else:
+            return False
+
     # Removes a friend from the profile
     # user.profile.removeFriend(Profile instance)
     def removeFriend(self, friend):
