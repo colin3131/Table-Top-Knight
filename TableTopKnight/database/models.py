@@ -204,7 +204,7 @@ class EventManager(models.Manager):
         return new_event
 
     def remove_event(self, eventID):
-        self.get(eventID=self.id).delete()
+        self.get(eventID=eventID).delete()
 
 
 class Event(models.Model):
@@ -267,7 +267,7 @@ class Event(models.Model):
         for pp in self.pendingPlayers.all():
             pp.addNotification(
                 "You've been invited to join an event hosted by " + self.host.user.username + ".",
-                "/events/" + str(self.pk) + "/join",
+                "/events/" + str(self.pk) + "/request",
             )
 
     # Check if the event currently allows voting
