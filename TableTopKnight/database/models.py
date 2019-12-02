@@ -267,7 +267,7 @@ class Event(models.Model):
         for pp in self.pendingPlayers.all():
             pp.addNotification(
                 "You've been invited to join an event hosted by " + self.host.user.username + ".",
-                "insert_url_here"
+                "/events/" + str(self.pk) + "/join",
             )
 
     # Check if the event currently allows voting

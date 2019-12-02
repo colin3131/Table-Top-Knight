@@ -71,6 +71,7 @@ def newevent(request):
             event.event_state='PV'
             event.save()
             form.save_m2m()
+            event.sendInvites()
             return redirect('myevent', event.id)
     else:
         form = EventForm(userID=request.user.id)
@@ -181,6 +182,21 @@ def friends(request):
 def friend(request, userID):
     return render(request, 'friend.html', {"friend": User.objects.get(pk=userID)})
 
+@login_required
+def joinevent(request, eventID):
+    cur_event = Event.objects.get(pk=eventID)
+    cur_event.addAttendee(request.user.profile)
+    request.user.profile.removeNotification(
+        request.user.profile.getNotifications().get(link="/events/"+str(eventID)+"/join")
+    )
+    return redirect('myevent', eventID)
+
+@login_required
+def leaveevent(request, eventID):
+    cur_event = Event.objects.get(pk=eventID)
+    cur_event.removeAttendee(request.user.profile)
+    return redirect('myevents')
+
 @login_required # called via /games/<id>/add
 def addgame(request, gameID):
     request.user.profile.addGame(Game.objects.get(pk=gameID))
@@ -191,6 +207,7 @@ def removegame(request, gameID):
     request.user.profile.removeGame(Game.objects.get(pk=gameID))
     return redirect('game', gameID)
 
+@login_required
 def acceptfriend(request, userID):
     request.user.profile.addFriend(User.objects.get(pk=userID).profile)
     request.user.profile.removeNotification(
@@ -198,12 +215,19 @@ def acceptfriend(request, userID):
     )
     return redirect('friends')
 
+@login_required
 def rejectfriend(request, userID):
     request.user.profile.removeNotification(
         request.user.profile.getNotifications().get(link="/friends/"+str(userID)+"/request")
     )
     return redirect('friends')
 
+@login_required
+def removefriend(request, userID):
+    request.user.profile.removeFriend(User.objects.get(pk=userID).profile)
+    return redirect('friends')
+
+@login_required
 def friendrequest(request, userID):
     return render(request, "friendrequest.html", {"friend": User.objects.get(pk=userID)})
 

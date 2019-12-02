@@ -20,12 +20,15 @@ urlpatterns = [
     path('events/<int:eventID>/', views.myevent, name='myevent'),
     path('events/<int:eventID>/vote/', views.vote, name='vote'),
     path('events/<int:eventID>/remove/', views.removeevent, name='removeevent'),
+    path('events/<int:eventID>/join/', views.joinevent, name='joinevent'),
+    path('events/<int:eventID>/leave/', views.leaveevent, name='leaveevent'),
     path('friends/', views.friends, name='friends'),
     path('friends/<int:userID>/', views.friend, name='friend'),
     path('friends/add/', views.addfriend, name='addfriend'),
     path('friends/<int:userID>/accept', views.acceptfriend, name='acceptfriend'),
     path('friends/<int:userID>/reject', views.rejectfriend, name='rejectfriend'),
     path('friends/<int:userID>/request', views.friendrequest, name='friendrequest'),
+    path('friends/<int:userID>/remove', views.removefriend, name='removefriend'),
 ]
 
 handler404 = views.handler404
