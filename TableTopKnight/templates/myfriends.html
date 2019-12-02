@@ -36,7 +36,7 @@
 
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                        <a class="dropdown-item" href="/editprofile">Edit Profile</a>
+                        <a class="dropdown-item" href="/#">Edit Profile</a>
 
                         <div class="dash-divider dropdown-divider"></div>
                         <a class="dropdown-item" href="/logout">Log Out</a>
@@ -61,8 +61,7 @@
                     <div class="dropdown-divider"></div>
 
                     <a class="dropdown-item" href="/friends/add">Add Friend</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Remove Friend</a>
+
                     </div>
                     </li>
                     <div class="dash-divider dropdown-divider"></div>
@@ -130,12 +129,13 @@
                     {% for friend in user.profile.getFriends %}
 
                         <li class="media">
-                        <img src="https://icon-library.net/images/default-user-icon/default-user-icon-14.jpg" class="mr-3">
-                        <div class="media-body">
-                          <a href="/friends/{{ friend.user.id }}">
-                          <h3 class="mt-0 mb-1">{{ friend.user.username }}</h3>
 
-                          </a>
+                          <div class="media-body" style="margin-left: 40px;">
+
+                          <h3 class="mt-0 mb-1"> <span class="fa fa-user" style="width: 50px; height: 50px;"></span>{{ friend.user.username }} -  <a href="/friends/{{ user.id }}/remove"><button class="btn btn-danger"> Remove Friend</button></a></h3>
+
+
+
                         </div>
                         </li>
 
