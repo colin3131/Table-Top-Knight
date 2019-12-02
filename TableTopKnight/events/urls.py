@@ -24,6 +24,7 @@ urlpatterns = [
     path('events/<int:eventID>/leave/', views.leaveevent, name='leaveevent'),
     path('events/<int:eventID>/request/', views.eventrequest, name='eventrequest'),
     path('events/<int:eventID>/reject/', views.rejectevent, name='rejectevent'),
+    path('events/<int:eventID>/addpending/', views.addpendingplayer, name='addpendingplayer'),
     path('friends/', views.friends, name='friends'),
     path('friends/<int:userID>/', views.friend, name='friend'),
     path('friends/add/', views.addfriend, name='addfriend'),

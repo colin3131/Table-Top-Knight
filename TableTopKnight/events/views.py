@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from .forms import SignUpForm, VoteForm, EventForm, FriendForm
+from .forms import SignUpForm, VoteForm, EventForm, FriendForm, PendingPlayerForm
 from database.models import Vote, Event, Game
 
 # TODO
@@ -94,6 +94,22 @@ def addfriend(request):
     else:
         form = FriendForm(userid=request.user.id)
     return render(request, 'addfriend.html', {"form": form})
+
+@login_required
+def addpendingplayer(request, eventID):
+    if request.method == 'POST':
+        form = PendingPlayerForm(data=request.POST, userid=request.user.id, eventid=eventID)
+        if form.is_valid():
+            usr = form.cleaned_data.get('playerName')
+            newpending = User.objects.get(username=usr).profile
+            cur_event = Event.objects.get(pk=eventID)
+            cur_event.addPending(newpending)
+            cur_event.save()
+            cur_event.sendInvite(newpending.user.pk)
+            return redirect('myevent', eventID)
+    else:
+        form = PendingPlayerForm(userid=request.user.id, eventid=eventID)
+    return render(request, 'addpending.html', {"form": form})
 
 
 # VOTING PAGE

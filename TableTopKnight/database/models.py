@@ -273,6 +273,14 @@ class Event(models.Model):
                 "/events/" + str(self.pk) + "/request",
             )
 
+    def sendInvite(self, ppid):
+        check_pp = User.objects.get(pk=ppid).profile
+        if(check_pp in self.pendingPlayers):
+            check_pp.addNotification(
+                "You've been invited to join an event hosted by " + self.host.user.username + ".",
+                "/events/" + str(self.pk) + "/request",
+            )
+
     # Check if the event currently allows voting
     # event.canVote() returns true/false
     def canVote(self):

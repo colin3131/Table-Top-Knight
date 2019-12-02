@@ -85,5 +85,41 @@ class FriendForm(forms.Form):
     def __init__(self, *args, **kwargs):
         self.userid = kwargs.pop('userid', None)
         super(FriendForm, self).__init__(*args, **kwargs)
+
+class PendingPlayerForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        self.userid = kwargs.pop('userid', None)
+        self.eventid = kwargs.pop('eventid', None)
+        super(PendingPlayerForm, self).__init__(*args, **kwargs)
+
+    playerName = forms.CharField()
+
+    def clean_playerName(self):
+        username = self.cleaned_data['playerName']
+        if not User.objects.filter(username=username).exists():
+            raise ValidationError(
+                _("User %(username)s does not exist."),
+                params={"username": username},
+            )
+        thisuser = User.objects.get(pk=self.userid)
+        thatuser = User.objects.get(username=username)
+        event = Event.objects.get(pk=self.eventid)
+        if(not thatuser.profile in thisuser.profile.getFriends()):
+            raise ValidationError(
+                _("User %(username)s is not your friend."),
+                params={"username": username},
+            )
+        if(thatuser.profile in event.getPendingPlayers()):
+            raise ValidationError(
+                _("User %(username)s is already pending."),
+                params={"username": username},
+            )
+        if(thatuser.profile in event.getAttendingPlayers()):
+            raise ValidationError(
+                _("User %(username)s is already attending."),
+                params={"username": username},
+            )
+        return username
+        
     
 
