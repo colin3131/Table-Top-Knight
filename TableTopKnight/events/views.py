@@ -183,6 +183,10 @@ def friend(request, userID):
     return render(request, 'friend.html', {"friend": User.objects.get(pk=userID)})
 
 @login_required
+def eventrequest(request, eventID):
+    return render(request, "eventrequest.html", {"event": Event.objects.get(pk=eventID)})
+
+@login_required
 def joinevent(request, eventID):
     cur_event = Event.objects.get(pk=eventID)
     cur_event.addAttendee(request.user.profile)
@@ -190,6 +194,14 @@ def joinevent(request, eventID):
         request.user.profile.getNotifications().get(link="/events/"+str(eventID)+"/join")
     )
     return redirect('myevent', eventID)
+
+@login_required
+def rejectevent(request, eventID):
+    cur_event = Event.objects.get(pk=eventID)
+    request.user.profile.removeNotification(
+        request.user.profile.getNotifications().get(link="/events/"+str(eventID)+"/join")
+    )
+    return redirect('myevents')
 
 @login_required
 def leaveevent(request, eventID):
