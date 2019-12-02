@@ -117,10 +117,10 @@
         <div class="col-md-10">
             <div class="jumbotron">
 
-                <h2>New Event Request From: {{ friend.username }}</h2>
+                <h2>New Event Request From: {{ event.host.user.username }}</h2>
                 <br/><br/>
-                        <a href="/friends/{{ friend.id }}/accept"><button class="btn btn-success" type="submit">Join Event</button></a>
-                        <a href="/friends/{{ friend.id }}/reject"><button class="btn btn-danger" type="submit"> Reject Request</button></a>
+                        <a href="/events/{{ event.id }}/join"><button class="btn btn-success" type="submit">Join Event</button></a>
+                        <a href="/friends/{{ event.id }}/reject"><button class="btn btn-danger" type="submit"> Reject Request</button></a>
 
             </div>
         </div>
