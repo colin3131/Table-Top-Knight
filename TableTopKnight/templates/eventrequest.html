@@ -117,56 +117,11 @@
         <div class="col-md-10">
             <div class="jumbotron">
 
-                <h1> Event Details</h1>
-                {% if request.user.profile == event.host %}
-                <a href="/events/{{ event.id }}/remove"<button class="btn btn-danger">Delete Event</button></a>
+                <h2>New Event Request From: {{ friend.username }}</h2>
+                <br/><br/>
+                        <a href="/friends/{{ friend.id }}/accept"><button class="btn btn-success" type="submit">Join Event</button></a>
+                        <a href="/friends/{{ friend.id }}/reject"><button class="btn btn-danger" type="submit"> Reject Request</button></a>
 
-                {% else %}
-                <a href="/events/{{ event.id }}/leave"<button class="btn btn-danger">Leave Event</button></a>
-
-                {% endif %}
-                <br/>
-                <p>
-                Host: <small style="color: grey">{{event.host.user}}</small></p>
-
-                <p>Date/Time: <small style="color: grey">{{event.eventDateTime}}</small></p>
-
-                <p>Location: <small style="color: grey">{{event.location}}</small></p>
-
-                <p>Pending Players:</p>
-                <ul class="dashboard-library">
-                    {% for profile in event.getPendingPlayers %}
-                    <li>
-                        <p> {{ profile.user.username }} </p>
-                    <li>
-                    {% endfor %}
-                </ul>
-
-                <p>Accepted Players:</p>
-                <ul class="dashboard-library">
-                    {% for user in event.attendees.user %}
-                    <li>
-                        <p> {{ user.username }} </p>
-                        1
-                    <li>
-                    {% endfor %}
-                </ul>
-
-                <p>Game Options:
-                {% for game in event.getFilteredGames %}
-                <li class="media">
-                <img src="{{ game.thumbnail_url }}" class="mr-3" alt="Image of {{ game.gameName }}.">
-                <div class="media-body">
-                  <a href="/games/{{ game.id }}">
-                  <h3 class="mt-0 mb-1">{{ game.gameName }}</h3>
-                  <h4 class="">Genre: {{ game.genre }} </h4>
-                  </a>
-                  {{ game.description|truncatewords:100 }}
-                </div>
-                </li>
-                {% endfor %}
-
-                </p>
             </div>
         </div>
 
