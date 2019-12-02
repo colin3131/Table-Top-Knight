@@ -204,7 +204,7 @@ class EventManager(models.Manager):
         return new_event
 
     def remove_event(self, eventID):
-        self.get(eventID=eventID).delete()
+        self.get(pk=eventID).delete()
 
 
 class Event(models.Model):
@@ -230,6 +230,9 @@ class Event(models.Model):
     )
     def getPendingPlayers(self):
         return self.pendingPlayers.all()
+
+    def getAttendingPlayers(self):
+        return self.attendees.all()
 
     def addPending(self, user):
         if isinstance(user, Profile):

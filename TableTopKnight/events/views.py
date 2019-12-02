@@ -190,16 +190,18 @@ def eventrequest(request, eventID):
 def joinevent(request, eventID):
     cur_event = Event.objects.get(pk=eventID)
     cur_event.addAttendee(request.user.profile)
+    cur_event.removePending(request.user.profile)
     request.user.profile.removeNotification(
-        request.user.profile.getNotifications().get(link="/events/"+str(eventID)+"/join")
+        request.user.profile.getNotifications().get(link="/events/"+str(eventID)+"/request")
     )
     return redirect('myevent', eventID)
 
 @login_required
 def rejectevent(request, eventID):
     cur_event = Event.objects.get(pk=eventID)
+    cur_event.removePending(request.user.profile)
     request.user.profile.removeNotification(
-        request.user.profile.getNotifications().get(link="/events/"+str(eventID)+"/join")
+        request.user.profile.getNotifications().get(link="/events/"+str(eventID)+"/request")
     )
     return redirect('myevents')
 
