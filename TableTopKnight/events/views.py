@@ -192,7 +192,7 @@ def removegame(request, gameID):
     return redirect('game', gameID)
 
 def acceptfriend(request, userID):
-    request.user.profile.addFriend(userID)
+    request.user.profile.addFriend(User.objects.get(pk=userID).profile)
     request.user.profile.removeNotification(
         request.user.profile.getNotifications().get(link="/friends/"+str(userID)+"/request")
     )
