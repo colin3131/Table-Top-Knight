@@ -63,7 +63,7 @@ class Profile(models.Model):
             if not friend in self.getFriends():
                 friend.addNotification(
                     message=""+self.user.username+" sent you a friend request.",
-                    link="/friends/"+self.user.id+"/request",
+                    link="/friends/"+str(self.user.id)+"/request",
                 )
             return True
         else:
