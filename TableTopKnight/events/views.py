@@ -139,7 +139,7 @@ def vote(request, eventID):
             return redirect('myevent', eventID=eventID)
         else:
             form = VoteForm(eventID)
-        return render(request, 'vote.html', {'form':form})
+    return render(request, 'vote.html', {'form':form})
 
 # TODO
 # Other Data Needed:
