@@ -108,8 +108,15 @@
                         <a class="dropdown-item" href="/games">Add New Game</a>
 
 
+
+
                         </div>
+                        
+                        <a href="/static/UserManual.pdf" <button class="btn" type="submit">Help</button>></a>
+                    
                     </li>
+
+                    
                 </ul>
             </div>
 
@@ -162,7 +169,7 @@
 
                         {% for notification in user.profile.getNotifications %}
 
-                            <a href="{{ notification.link }}">{{ notification.message }}</a>
+                            <a href="{{ notification.link }}">{{ notification.message }}</a><br>
 
                         {% endfor %}
                     </div>
