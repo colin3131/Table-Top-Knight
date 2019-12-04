@@ -180,6 +180,9 @@ class Game(models.Model):
     description = models.CharField(max_length=10000, default="")
     objects = GameManager()
 
+    def __str__(self):
+        return self.gameName
+
     def getGame(self):
         game = {
             "name": self.gameName,
