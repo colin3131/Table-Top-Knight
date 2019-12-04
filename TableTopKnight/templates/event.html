@@ -155,10 +155,9 @@
 
                 <p>Accepted Players:</p>
                 <ul class="dashboard-library">
-                    {% for profile in event.attendees.user %}
+                    {% for profile in event.attendees.all %}
                     <li>
                         <p><small style="color: grey"> {{ profile.user.username }}</small></p>
-                        1
                     <li>
                     {% endfor %}
                 </ul>

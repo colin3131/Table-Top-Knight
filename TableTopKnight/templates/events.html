@@ -132,7 +132,7 @@
                 {% endfor %}
 
                 <h1> All the events you are attending... </h1>
-                {% for event in user.profile.getEventsHosting %}
+                {% for event in user.profile.getEventsAttending %}
                 <li class="media">
                 <div class="media-body">
                   <a href="/events/{{ event.id }}">
