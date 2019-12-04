@@ -119,10 +119,21 @@
 
                 <h1> Event Details</h1>
                 {% if request.user.profile == event.host %}
-                <a href="/events/{{ event.id }}/remove"<button class="btn btn-danger">Delete Event</button></a>
+                    <a href="/events/{{ event.id }}/remove"<button class="btn btn-danger">Delete Event</button></a>
+                    {% if event.canInvite %}
+                        <a href="/events/{{ event.id }}/vote" <button onclick="{{event.startVoting}}"class="btn btn-danger" >Start Voting</button></a>
+                    {% elif event.canVote %}
+                        <a href="/events/{{ event.id }}/"<button class="btn btn-danger">End Voting</button></a>
+
+                        <a href="/events/{{ event.id }}/vote"<button class="btn btn-danger">Vote</button></a>
+                    {% endif %}
+
 
                 {% else %}
-                <a href="/events/{{ event.id }}/leave"<button class="btn btn-danger">Leave Event</button></a>
+                    <a href="/events/{{ event.id }}/leave"<button class="btn btn-danger">Leave Event</button></a>
+                    {% if event.canVote %}
+                        <a href="/events/{{ event.id }}/vote"<button class="btn btn-danger">Vote</button></a>
+                    {% endif %}
 
                 {% endif %}
                 <br/>
@@ -153,18 +164,33 @@
                 </ul>
 
                 <p>Game Options:
-                {% for game in event.getFilteredGames.all %}
-                <li class="media">
-                <img src="{{ game.thumbnail_url }}" class="mr-3" alt="Image of {{ game.gameName }}.">
-                <div class="media-body">
-                  <a href="/games/{{ game.id }}">
-                  <h3 class="mt-0 mb-1">{{ game.gameName }}</h3>
-                  <h4 class="">Genre: {{ game.genre }} </h4>
-                  </a>
-                  {{ game.description|truncatewords:100 }}
-                </div>
-                </li>
-                {% endfor %}
+                {% if event.canInvite or event.canVote %}
+                    {% for game in event.getFilteredGames.all %}
+                    <li class="media">
+                    <img src="{{ game.thumbnail_url }}" class="mr-3" alt="Image of {{ game.gameName }}.">
+                    <div class="media-body">
+                      <a href="/games/{{ game.id }}">
+                      <h3 class="mt-0 mb-1">{{ game.gameName }}</h3>
+                      <h4 class="">Genre: {{ game.genre }} </h4>
+                      </a>
+                      {{ game.description|truncatewords:100 }}
+                    </div>
+                    </li>
+                    {% endfor %}
+                {% else %}
+                    {% for game in event.getRankedGames %}
+                    <li class="media">
+                    <img src="{{ game.thumbnail_url }}" class="mr-3" alt="Image of {{ game.gameName }}.">
+                    <div class="media-body">
+                      <a href="/games/{{ game.id }}">
+                      <h3 class="mt-0 mb-1">{{ game.gameName }}</h3>
+                      <h4 class="">Genre: {{ game.genre }} </h4>
+                      </a>
+                      {{ game.description|truncatewords:100 }}
+                    </div>
+                    </li>
+                    {% endfor %}
+                {% endif %}
 
                 </p>
             </div>
