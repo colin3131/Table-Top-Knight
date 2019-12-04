@@ -137,8 +137,8 @@ def vote(request, eventID):
                 profile=request.user.profile
             )
             return redirect('myevent', eventID=eventID)
-        else:
-            form = VoteForm(eventID)
+    else:
+        form = VoteForm(eventID)
     return render(request, 'vote.html', {'form':form})
 
 # TODO
