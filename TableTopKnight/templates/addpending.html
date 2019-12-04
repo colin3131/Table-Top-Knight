@@ -36,7 +36,7 @@
 
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-
+                    
                         <a class="dropdown-item" href="/logout">Log Out</a>
                         </div>
                     </li>
@@ -117,86 +117,23 @@
         <div class="col-md-10">
             <div class="jumbotron">
 
-                <h1> Event Details</h1>
-                {% if request.user.profile == event.host %}
-                    <a href="/events/{{ event.id }}/remove"<button class="btn btn-danger">Delete Event</button></a>
-                    {% if event.canInvite %}
-                        <a href="/events/{{ event.id }}/addpending"<button class="btn btn-danger">Invite Player</button></a>
-                        <a href="/events/{{ event.id }}/startvoting" <button class="btn btn-danger" >Start Voting</button></a>
-                    {% elif event.canVote %}
-                        <a href="/events/{{ event.id }}/endvoting"<button class="btn btn-danger">End Voting</button></a>
-
-                        <a href="/events/{{ event.id }}/vote"<button class="btn btn-danger">Vote</button></a>
-                    {% endif %}
-
-
-                {% else %}
-                    <a href="/events/{{ event.id }}/leave"<button class="btn btn-danger">Leave Event</button></a>
-                    {% if event.canVote %}
-                        <a href="/events/{{ event.id }}/vote"<button class="btn btn-danger">Vote</button></a>
-                    {% endif %}
-
-                {% endif %}
-                <br/>
-                <p>
-                Host: <small style="color: grey">{{event.host.user}}</small></p>
-
-                <p>Date/Time: <small style="color: grey">{{event.eventDateTime}}</small></p>
-
-                <p>Location: <small style="color: grey">{{event.location}}</small></p>
-
-                <p>Pending Players:</p>
-                <ul class="dashboard-library">
-                    {% for profile in event.getPendingPlayers %}
-                    <li>
-                        <p><small style="color: grey"> {{ profile.user.username }}</small></p>
-                    <li>
-                    {% endfor %}
-                </ul>
-
-                <p>Accepted Players:</p>
-                <ul class="dashboard-library">
-                    {% for profile in event.attendees.all %}
-                    <li>
-                        <p><small style="color: grey"> {{ profile.user.username }}</small></p>
-                    <li>
-                    {% endfor %}
-                </ul>
-
-                
-                {% if event.canInvite or event.canVote %}
-                    <p>Game Options:
-                    {% for game in event.getFilteredGames.all %}
-                    <li class="media">
-                    <img src="{{ game.thumbnail_url }}" class="mr-3" alt="Image of {{ game.gameName }}.">
-                    <div class="media-body">
-                      <a href="/games/{{ game.id }}">
-                      <h3 class="mt-0 mb-1">{{ game.gameName }}</h3>
-                      <h4 class="">Genre: {{ game.genre }} </h4>
-                      </a>
-                      {{ game.description|truncatewords:100 }}
-                    </div>
-                    </li>
-                    {% endfor %}
-                    </p>
-                {% else %}
-                    <p>Top Voted Games:
-                    {% for game in event.getRankedGames %}
-                    <li class="media">
-                    <img src="{{ game.thumbnail_url }}" class="mr-3" alt="Image of {{ game.gameName }}.">
-                    <div class="media-body">
-                      <a href="/games/{{ game.id }}">
-                      <h3 class="mt-0 mb-1">{{ game.gameName }}</h3>
-                      <h4 class="">Genre: {{ game.genre }} </h4>
-                      </a>
-                      {{ game.description|truncatewords:100 }}
-                    </div>
-                    </li>
-                    {% endfor %}
-                    </p>
-                {% endif %}
-
-                
+                <h2>Invite Player</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                          <p>
+                            {{ field.label_tag }}<br>
+                            {{ field }}
+                            {% if field.help_text %}
+                              <small style="color: grey">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% for error in field.errors %}
+                              <p style="color: red">{{ error }}</p>
+                            {% endfor %}
+                          </p>
+                        {% endfor %}
+                        <button class="btn btn-danger" type="submit">Invite</button>
+                    </form>
             </div>
         </div>
 

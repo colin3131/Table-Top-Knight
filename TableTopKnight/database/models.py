@@ -278,7 +278,7 @@ class Event(models.Model):
 
     def sendInvite(self, ppid):
         check_pp = User.objects.get(pk=ppid).profile
-        if(check_pp in self.pendingPlayers):
+        if(check_pp in self.pendingPlayers.all()):
             check_pp.addNotification(
                 "You've been invited to join an event hosted by " + self.host.user.username + ".",
                 "/events/" + str(self.pk) + "/request",
