@@ -121,9 +121,9 @@
                 {% if request.user.profile == event.host %}
                     <a href="/events/{{ event.id }}/remove"<button class="btn btn-danger">Delete Event</button></a>
                     {% if event.canInvite %}
-                        <a href="/events/{{ event.id }}/vote" <button onclick="{{event.startVoting}}"class="btn btn-danger" >Start Voting</button></a>
+                        <a href="/events/{{ event.id }}/startvoting" <button class="btn btn-danger" >Start Voting</button></a>
                     {% elif event.canVote %}
-                        <a href="/events/{{ event.id }}/"<button class="btn btn-danger">End Voting</button></a>
+                        <a href="/events/{{ event.id }}/endvoting"<button class="btn btn-danger">End Voting</button></a>
 
                         <a href="/events/{{ event.id }}/vote"<button class="btn btn-danger">Vote</button></a>
                     {% endif %}
@@ -148,23 +148,24 @@
                 <ul class="dashboard-library">
                     {% for profile in event.getPendingPlayers %}
                     <li>
-                        <p> {{ profile.user.username }} </p>
+                        <p><small style="color: grey"> {{ profile.user.username }}</small></p>
                     <li>
                     {% endfor %}
                 </ul>
 
                 <p>Accepted Players:</p>
                 <ul class="dashboard-library">
-                    {% for user in event.attendees.user %}
+                    {% for profile in event.attendees.user %}
                     <li>
-                        <p> {{ user.username }} </p>
+                        <p><small style="color: grey"> {{ profile.user.username }}</small></p>
                         1
                     <li>
                     {% endfor %}
                 </ul>
 
-                <p>Game Options:
+                
                 {% if event.canInvite or event.canVote %}
+                    <p>Game Options:
                     {% for game in event.getFilteredGames.all %}
                     <li class="media">
                     <img src="{{ game.thumbnail_url }}" class="mr-3" alt="Image of {{ game.gameName }}.">
@@ -177,7 +178,9 @@
                     </div>
                     </li>
                     {% endfor %}
+                    </p>
                 {% else %}
+                    <p>Top Voted Games:
                     {% for game in event.getRankedGames %}
                     <li class="media">
                     <img src="{{ game.thumbnail_url }}" class="mr-3" alt="Image of {{ game.gameName }}.">
@@ -190,9 +193,10 @@
                     </div>
                     </li>
                     {% endfor %}
+                    </p>
                 {% endif %}
 
-                </p>
+                
             </div>
         </div>
 

@@ -255,7 +255,7 @@ class Event(models.Model):
 
     def addAttendee(self, user):
         if isinstance(user, Profile):
-            if not user in self.attendees.all():
+            if not user in self.getAttendingPlayers():
                 self.attendees.add(user)
             return True
         else:

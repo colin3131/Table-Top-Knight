@@ -18,6 +18,10 @@ urlpatterns = [
     path('events/', views.myevents, name='myevents'),
     path('events/createevent/', views.newevent, name='newevent'),
     path('events/<int:eventID>/', views.myevent, name='myevent'),
+
+    path('events/<int:eventID>/startvoting/', views.startvoting, name='startvoting'),
+    path('events/<int:eventID>/endvoting/', views.endvoting, name='endvoting'),
+
     path('events/<int:eventID>/vote/', views.vote, name='vote'),
     path('events/<int:eventID>/remove/', views.removeevent, name='removeevent'),
     path('events/<int:eventID>/join/', views.joinevent, name='joinevent'),

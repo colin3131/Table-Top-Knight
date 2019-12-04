@@ -141,6 +141,20 @@ def vote(request, eventID):
         form = VoteForm(eventID)
     return render(request, 'vote.html', {'form':form})
 
+@login_required
+def startvoting(request, eventID):
+    this_event = Event.objects.get(pk=eventID)
+    this_event.startVoting()
+    this_event.save()
+    return redirect('myevent', eventID)
+
+@login_required
+def endvoting(request, eventID):
+    this_event = Event.objects.get(pk=eventID)
+    this_event.endVoting()
+    this_event.save()
+    return redirect('myevent', eventID)
+
 # TODO
 # Other Data Needed:
 @login_required
@@ -207,6 +221,7 @@ def joinevent(request, eventID):
     cur_event = Event.objects.get(pk=eventID)
     cur_event.addAttendee(request.user.profile)
     cur_event.removePending(request.user.profile)
+    cur_event.save()
     request.user.profile.removeNotification(
         request.user.profile.getNotifications().get(link="/events/"+str(eventID)+"/request")
     )
@@ -216,6 +231,7 @@ def joinevent(request, eventID):
 def rejectevent(request, eventID):
     cur_event = Event.objects.get(pk=eventID)
     cur_event.removePending(request.user.profile)
+    cur_event.save()
     request.user.profile.removeNotification(
         request.user.profile.getNotifications().get(link="/events/"+str(eventID)+"/request")
     )
@@ -225,6 +241,7 @@ def rejectevent(request, eventID):
 def leaveevent(request, eventID):
     cur_event = Event.objects.get(pk=eventID)
     cur_event.removeAttendee(request.user.profile)
+    cur_event.save()
     return redirect('myevents')
 
 @login_required # called via /games/<id>/add
