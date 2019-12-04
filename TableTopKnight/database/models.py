@@ -322,14 +322,14 @@ class Event(models.Model):
                 if(game not in groupLibrary):
                     gInfo = game.getGame()
                     if(gInfo["minimum_players"]<=playerNum and playerNum<=gInfo["maximum_players"]): #filter for number of players
-                        groupLibrary.append(game.gameName)
+                        groupLibrary.append(game.id)
         #do the same for the host
         for game in self.host.getLibrary():
             if(game not in groupLibrary):
                 gInfo = game.getGame()
                 if(gInfo["minimum_players"]<=playerNum and playerNum<=gInfo["maximum_players"]): #filter for number of players
-                    groupLibrary.append(game.gameName)
-        return Game.objects.filter(groupLibrary) #returns a queryset
+                    groupLibrary.append(game.id)
+        return Game.objects.filter(id__in=groupLibrary) #returns a queryset
 
 
     # Grab all of the votes using self.getVotes(), use the list of votes and their
