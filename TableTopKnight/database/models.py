@@ -373,11 +373,11 @@ class Notification(models.Model):
     objects = NotificationManager()
 
 class VoteManager(models.Manager):
-    def create(self, event, game, rank):
-        vote = self.create(event=event, game=game, rank=rank)
+    def create_vote(self, event, game, rank, profile):
+        vote = self.create(event=event, game=game, rank=rank, profile=profile)
         vote.save()
         return vote
-    def delete(self, d_vote):
+    def delete_vote(self, d_vote):
         d_vote.delete()
 
 class Vote(models.Model):

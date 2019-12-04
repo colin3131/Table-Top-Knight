@@ -116,21 +116,21 @@ def addpendingplayer(request, eventID):
 @login_required
 def vote(request, eventID):
     if request.method == 'POST':
-        form = VoteForm(request.POST)
+        form = VoteForm(data=request.POST, eventID=eventID)
         if form.is_valid():
-            Vote.objects.create(
+            Vote.objects.create_vote(
                 event=Event.objects.get(pk=eventID),
                 game=form.cleaned_data['game1'],
                 rank=1,
                 profile=request.user.profile
             )
-            Vote.objects.create(
+            Vote.objects.create_vote(
                 event=Event.objects.get(pk=eventID),
                 game=form.cleaned_data['game2'],
                 rank=2,
                 profile=request.user.profile
             )
-            Vote.objects.create(
+            Vote.objects.create_vote(
                 event=Event.objects.get(pk=eventID),
                 game=form.cleaned_data['game3'],
                 rank=3,
